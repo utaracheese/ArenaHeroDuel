@@ -557,6 +557,68 @@
             box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
 
+        /* --- BUTTON NÚT PHÙ HIỆU & THƯ VIỆN PHÙ HIỆU --- */
+        #btn-open-rune-library {
+            position: absolute; top: 15px; left: 75px;
+            background: #8a2be2; color: white; border: 2px solid #fff;
+            padding: 10px 15px; font-weight: bold; font-size: 16px;
+            border-radius: 8px; cursor: pointer; transition: 0.2s; z-index: 15;
+        }
+        #btn-open-rune-library:hover { background: #9932cc; transform: scale(1.05); }
+
+        /* Điều chỉnh lại nút Dọn Dẹp thừa sang bên phải một chút */
+        #btn-debug-stop {
+            left: 135px !important;
+        }
+
+        #rune-detail-content {
+            display: flex; width: 100%; max-width: 950px; height: 500px;
+            background: #222; border: 4px solid #8a2be2; border-radius: 15px;
+            padding: 20px; box-sizing: border-box; gap: 20px;
+        }
+
+        .rune-detail-left {
+            width: 320px; display: flex; flex-direction: column; align-items: center;
+            border-right: 2px solid #444; padding-right: 20px; box-sizing: border-box;
+        }
+
+        #rune-info-icon-container {
+            width: 120px; height: 120px; background: #111; border: 3px solid #ffd700;
+            border-radius: 15px; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4); margin-bottom: 15px;
+        }
+        #rune-detail-img { width: 100px; height: 100px; object-fit: contain; }
+
+        #rune-detail-name { font-size: 22px; font-weight: bold; color: #ffd700; margin-bottom: 5px; text-align: center; }
+        .rune-tier-badge {
+            font-size: 13px; font-weight: bold; padding: 3px 12px; border-radius: 10px;
+            border: 1px solid; margin-bottom: 15px; text-transform: uppercase;
+        }
+
+        #rune-detail-desc-box {
+            width: 100%; background: #111; border: 1px solid #444; border-radius: 8px;
+            padding: 12px; box-sizing: border-box; color: #ddd; font-size: 13px; text-align: left; line-height: 1.5;
+        }
+        .rune-desc-title { color: #ff9900; font-weight: bold; margin-bottom: 3px; }
+
+        .rune-list-right {
+            flex: 1; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; padding-right: 10px;
+        }
+        .rune-list-right::-webkit-scrollbar { width: 8px; }
+        .rune-list-right::-webkit-scrollbar-track { background: #111; }
+        .rune-list-right::-webkit-scrollbar-thumb { background: #8a2be2; border-radius: 4px; }
+
+        .rune-cat-header { font-size: 16px; font-weight: bold; text-align: left; border-bottom: 1px solid #444; padding-bottom: 5px; }
+        .rune-cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+
+        .rune-lib-card {
+            background: #1a1a1a; border: 2px solid; border-radius: 8px; padding: 8px;
+            display: flex; flex-direction: column; align-items: center; cursor: pointer;
+            transition: 0.2s;
+        }
+        .rune-lib-card:hover { transform: scale(1.05); background: #333; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .rune-card-img { width: 45px; height: 45px; object-fit: contain; margin-bottom: 5px; }
+        .rune-card-name { font-size: 12px; font-weight: bold; color: #fff; text-align: center; }
     </style>
 </head>
 <body>
@@ -599,6 +661,7 @@
 <div id="selection-screen">
     <h1>CHỌN CÀI ĐẶT & TƯỚNG</h1>
     <button id="btn-open-library" onclick="openHeroLibrary()">📖</button>
+    <button id="btn-open-rune-library" onclick="openRuneLibrary()" title="Danh sách Phù Hiệu">💥</button>
     <button id="btn-debug-stop" onclick="debugStopAll()" title="Dừng toàn bộ âm thanh và dọn dẹp thực thể thừa">🧹</button>
     <div class="settings-container">
         <label>Máu (HP): <input type="number" id="input-hp" value="500" min="10" max="1000"></label>
@@ -630,6 +693,7 @@
                 <button class="hero-btn hero-doraemon" onclick="selectHero(1, 'doraemon', 'Doraemon')">Doraemon</button>
                 <button class="hero-btn hero-allain" onclick="selectHero(1, 'allain', 'Allain')">Allain</button>
                 <!--<button class="hero-btn hero-peashooter" onclick="selectHero(1, 'peashooter', 'Peashooter')">Peashooter</button>-->
+                <button class="hero-btn" style="color: #32cd32; border-color: #32cd32; text-shadow: 0 0 5px #00ff00;" onclick="selectHero(1, 'mgpea', 'Mega Gatling Pea')">Mega Gatling Pea</button>
                 <button class="hero-btn" style="color: #8a2be2; border-color: #8a2be2;" onclick="selectHero(1, 'shadowpea', 'Shadow Peashooter')">Shadow Peashooter</button>
                 <button class="hero-btn" style="color: #ff9900; border-color: #ff9900;" onclick="selectHero(1, 'trump', 'Donald Trump')">Donald Trump</button>
                 <button class="hero-btn" style="color: #ffffff; border-color: #ffffff;" onclick="selectHero(1, 'kid', 'Kaito Kid')">Kaito Kid</button>
@@ -689,6 +753,7 @@
                 <button class="hero-btn hero-doraemon" onclick="selectHero(2, 'doraemon', 'Doraemon')">Doraemon</button>
                 <button class="hero-btn hero-allain" onclick="selectHero(2, 'allain', 'Allain')">Allain</button>
                 <!--<button class="hero-btn hero-peashooter" onclick="selectHero(2, 'peashooter', 'Peashooter')">Peashooter</button>-->
+                <button class="hero-btn" style="color: #32cd32; border-color: #32cd32; text-shadow: 0 0 5px #00ff00;" onclick="selectHero(2, 'mgpea', 'Mega Gatling Pea')">Mega Gatling Pea</button>
                 <button class="hero-btn" style="color: #8a2be2; border-color: #8a2be2;" onclick="selectHero(2, 'shadowpea', 'Shadow Peashooter')">Shadow Peashooter</button>
                 <button class="hero-btn" style="color: #ff9900; border-color: #ff9900;" onclick="selectHero(2, 'trump', 'Donald Trump')">Donald Trump</button>
                 <button class="hero-btn" style="color: #ffffff; border-color: #ffffff;" onclick="selectHero(2, 'kid', 'Kaito Kid')">Kaito Kid</button>
@@ -745,7 +810,33 @@
     </div>
     <div id="library-grid"></div>
 </div>
-
+<!-- --- MENU THƯ VIỆN PHÙ HIỆU --- -->
+<div id="rune-library-screen" class="full-screen-modal">
+    <div class="modal-header">
+        <button class="back-btn" onclick="closeRuneLibrary()">❮</button>
+        <h2 class="modal-title" style="color: #8a2be2;">THƯ VIỆN PHÙ HIỆU</h2>
+    </div>
+    <div id="rune-detail-content">
+        <!-- Nửa trái: Thông tin phù hiệu được chọn -->
+        <div class="rune-detail-left">
+            <div id="rune-info-icon-container">
+                <img id="rune-detail-img" src="" alt="Rune Icon">
+            </div>
+            <div id="rune-detail-name">TÊN PHÙ HIỆU</div>
+            <div id="rune-detail-tier" class="rune-tier-badge">SƠ CẤP</div>
+            <div id="rune-detail-desc-box">
+                <div class="rune-desc-title">Mô tả ngắn:</div>
+                <div id="rune-detail-desc">-</div>
+                <div class="rune-desc-title" style="margin-top: 10px;">Tác dụng chi tiết:</div>
+                <div id="rune-detail-text">-</div>
+            </div>
+        </div>
+        <!-- Nửa phải: Danh sách phân loại 3 cấp phù hiệu -->
+        <div class="rune-list-right" id="rune-list-right">
+            <!-- Render tự động bởi JS -->
+        </div>
+    </div>
+</div>
 <!-- --- MÀN HÌNH CÀI ĐẶT CƠ CHẾ TƯỚNG (HERO SETTINGS) --- -->
 <div id="hero-settings-screen" class="full-screen-modal" style="display: none;">
     <div class="modal-header">
@@ -907,7 +998,9 @@
         { id: '0scd', name: '⚡ 0S HỒI CHIÊU', icon: 'assets/gameplay/0scd.png' },
         { id: 'badge', name: '🛡️ BADGE', icon: 'assets/gameplay/badge.png' },
         { id: 'combo', name: '🔥 COMBO', icon: 'assets/gameplay/combo.png' },
+        { id: 'phuhieu', name: '🔮 PHÙ HIỆU', icon: 'assets/gameplay/badge.png' },
         { id: 'flagfight', name: '🚩 CƯỚP CỜ', icon: 'assets/gameplay/flagfight.png' },
+
     ];
     function updateLoadingScreen() {
         resLoadedCount++;
@@ -1151,6 +1244,8 @@
         { id: 'zoro', name: 'Roronoa Zoro' },
         { id: 'eren', name: 'Eren Yeager' },
         { id: 'zeroone', name: 'Kamen Rider Zero-One' },
+        { id: 'mgpea', name: 'Mega Gatling Pea' },
+
 
     ];
 
@@ -2923,7 +3018,7 @@ class FireParticle {
                         this.y = target.y + (Math.random() * 100 - 50);
                         this.facingRight = this.x < target.x;
                         
-                        target.takeDamage(5);
+                        target.takeDamage(10);
                         effects.push(new Explosion(target.x + 15, target.y + 25, 40, '#ffffff'));
                         effects.push(new OvalShockwave(target.x + 15, target.y + 25, this.facingRight, '#87ceeb', Math.random()*Math.PI));
                         
@@ -2939,7 +3034,7 @@ class FireParticle {
                     } 
                     else if (this.yasuoUltPhase === 5) {
                         // Giai đoạn 5: Đập xuống đất
-                        target.takeDamage(30);
+                        target.takeDamage(60);
                         target.vy = 25; // Địch rơi cắm đầu xuống đất
                         
                         this.isYasuoUlt = false;
@@ -9312,6 +9407,10 @@ player2 = new Player(canvas.width * 0.9 - 30, canvas.height - groundHeight - 50,
             if (typeof initBadgeMode !== 'undefined') {
                 initBadgeMode(player1, player2);
             }
+        } else if (currentMode === 'phuhieu') {
+            if (typeof initPhuHieuMode !== 'undefined') {
+                initPhuHieuMode();
+            }
         } else if (currentMode === 'flagfight') {
             if (typeof initFlagFightMode !== 'undefined') {
                 initFlagFightMode();
@@ -9644,6 +9743,10 @@ player2 = new Player(canvas.width * 0.9 - 30, canvas.height - groundHeight - 50,
         // --- GỌI LOGIC CỦA CHẾ ĐỘ 0S HỒI CHIÊU ---
         if (currentMode === '0scd' && typeof update0sCDMode !== 'undefined') {
             update0sCDMode(player1, player2);
+        }
+        // --- GỌI LOGIC CỦA CHẾ ĐỘ PHÙ HIỆU ---
+        if (currentMode === 'phuhieu' && typeof updatePhuHieuMode !== 'undefined') {
+            updatePhuHieuMode(player1, player2, ctx);
         }
         // --- GỌI LOGIC CỦA CHẾ ĐỘ BADGE ---
         if (currentMode === 'badge' && typeof updateBadgeMode !== 'undefined') {
@@ -9994,8 +10097,10 @@ player2 = new Player(canvas.width * 0.9 - 30, canvas.height - groundHeight - 50,
 <script src="classhero/warden.js"></script>
 <script src="classhero/zoro.js"></script>
 <script src="classhero/eren.js"></script>
-<script src="classhero/zeroone.js"></script>
+<script src="classhero/mgpea.js"></script>
 <script src="classhero/spider.js"></script>
+<script src="classhero/Cuttaraxacum.js"></script>
+
 
 
 
@@ -10015,7 +10120,7 @@ player2 = new Player(canvas.width * 0.9 - 30, canvas.height - groundHeight - 50,
 <script src="modes/combo.js"></script>
 <script src="modes/flagfight.js"></script>
 <script src="modes/pick_skill.js"></script>
-<script src="modes/rainitem.js"></script>
+<script src="modes/phu_hieu.js"></script>
 
 <!-- --- TÍCH HỢP HỆ THỐNG ĐẤU PHÒNG ONLINE (MULTIPLAYER) --- -->
 <script>

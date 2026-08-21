@@ -29,3 +29,38 @@ c3_spawn : khi dùng chiêu 3
 c3_shoot : khi rồng bắn đạn
 
 
+thêm phù hiệu 
+tên : mô tả : hiển thị
+tên : tên phù hiệu
+mô tả : làm như mình nói (text)
+hiển thị : phần giới thiệu phù hiệu ghi i xì như này (desc)
+1 sơ cấp : 
+
+phán quyết : sửa lại thành gây 1 lượng dame bằng 50%hp địch khi kích hoạt(cách kích hoạt như cũ) vì hiện tại kích hoạt hp địch sẽ thành NaN
+
+Đôi cánh tự do : miễn sát thương rơi và nhận thêm 1 jump tối đa (bình thường là double jump thành triple jump những tướng có triple sẵn sẽ lên 4 lần)  draw cánh đơn giản vẫy vẫy : miễn st rơi, nhảy cao 
+
+Trinh sát đoàn : gây dame lập tức dùng chiêu 2 của levi tại vị trí bản thân (có gây dame như bản gốc) - hồi chiêu 5s : gây dame triệu hồi levi
+
+Vòng tròn ma pháp : mỗi 5s sẽ kích hoạt chiêu 1 (tạo bẫy) của everest ngay tại vị trí địch
+
+Trung cấp 
+Ăn cức trâu sống lâu bất tử : mỗi 5s spawn 1 cục cức trâu (mất sau 10s ko nhặt) nhặt giúp hồi 7%hp và nhận hiệu ứng shield 20% trong 5s khi ăn tạo lá chắn mờ nhiễu : ăn cức trâu hồi phục tăng giáp
+
+Bom mù : gây dame làm phát sáng toàn map(tạo 1 lớp trắng phủ mượt lên) trong 2,5s hồi chiêu 7s : gây dame mù cả 2
+
+Ăn to nói lớn : nói vào mic với âm lượng không quá nhỏ(tạo phần đo âm lượng)tạo 1 làn sóng toả chậm ra 500px gây 1-3dame (ở phạm vi 250px trở đi chỉ gây 1dame và bản thân hồi phục 1hp  - hồi chiêu 0,2s (nếu hét liên tục thì sóng sẽ tạo ra 5 đợt /s : hét vô mic gây dame và hồi phục
+// Phù hiệu ăn to nói lớn tìm cách quy đổi sao cho phải nói mới kích hoạt//
+
+Thể phách titan : hitbox và draw bản thân phóng to gấp 7 lần cả cao và ngang hitbox đạn cũng to lên gấp 3 lần và gấp 3 lần dame : tăng hitbox tăng sức mạnh
+
+bóng ma : khi nhận sẽ tạo 1 bóng đen tại vị trí bản thân đang đứng, dash giảm còn 0,5s hồi , khi kích hoạt dash lập tức đổi vị trí bóng và bản thân (bóng ko thể di chuyển) : tạo bóng giựt bóng
+
+Đảo ngược thời gian : hồi lại tối đa 3 totem(ko vượt 7/7 totem) của cả 2 và xoá toàn bộ phù hiệu của cả 2, cả 2 phải nhặt lại phù hiệu từ đầu, nếu phù hiệu dừng spawn sẽ chạy spawn trở lại và có thể nhặt lại : hồi 3 totem làm lại từ đầu
+//Phù hiệu này cũng ko được nhận vì nhận xong lập tức clear toàn bộ//
+
+Chậm mà chắc : sau 15s ko dùng chiêu hay đánh thường (có thể dash) lần gây dame kế(chỉ áp dụng với đánh thường) gây dame bằng lượng hp còn lại + hshield của địch khi gây dame cường hoá này chạy thật nhiều nhiệu ứng như sấm sét, nổ,... Để cảm giác nó thật lực : sau 15s có thể onehit địch 
+
+Ma pháp liên hồi : bật mode 0s hồi chiêu ( cho toàn bộ chiêu thành 0,15s hồi) trong 5 khi kết thục chờ 10s sau sẽ được kích hoạt lại và cứ thế lặp lại
+
+Sửa draw liên bạo kích sao cho nó thành các mũi tên

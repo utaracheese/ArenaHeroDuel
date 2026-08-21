@@ -5,60 +5,53 @@ const HeroData = {
         passive: `Đánh thường: Đạn phô mai | Sát thương: 7\nTỉ lệ 4,9% đòn đánh thườn ném ra 1 miếng bơ\n \nNội tại: Đạn bơ | Sát thương 10\nLàm choáng địch 1,5s`,
         c1: ` Phô mai cuộn | Sát thương: 25 \nKhi Phô mai cuộn trúng địch sẽ tạo ra 5 miếng bơ trong phạm vi ngắn có tác dụng bẫy, địch giẵm vào sẽ bị choáng 1s`,
         c2: ` Bơ trơn trượt | Sát thương: 30 \nTạo ra 1 đường trơn trượt khiến địch giảm tốc chạy và không thể nhảy`,
-        c3: ` Mưa bơ | Sát thương: 15 \nTạo ra cơn mưa bơ trên toàn map nếu trúng địch sẽ gây choáng 3s`
+        c3: ` Mưa bơ | Sát thương: 15 \nTạo ra cơn mưa bơ trên toàn map nếu trúng địch sẽ gây choáng 3s\nNếu bản thân nhặt bơ sẽ giúp hồi phục\n`
     },
     'robot-R1': {
-        difficulty: 3,
+        difficulty: 2,
         passive: `Nội tại: X \nĐánh thường: X | Sát thương: 7`,
-        c1: ` Điện cầu | Sát thương: 25 \nGây liên tiếp 1 sát thương giật điện trong phạm vi điện cầu`,
+        c1: ` Điện cầu | Sát thương: 25 \nGây liên tiếp 1 sát thương giật điện trong phạm vi điện cầu\n\n-Kích hoạt cùng chiêu 2-\nMạng lưới điện | Máu ảo : 5% MaxHP\nmỗi 1s gây 3 lần sát thương kèm hồi phục cho bản thân 1hp`,
         c2: ` khiên năng lượng \nTạo 3 lớp lá chắn chặn nhiều loại đòn đánh và lượng nhỏ máu ảo`,
-        c3: ` Hỏa cầu | Sát thương: 80 \nBắn hỏa cầu gây sát thương và choáng, nếu hụt trúng chướng ngại vật có thể gây nổ lớn lên cả bản thân và địch `
+        c3: ` Hỏa cầu | Sát thương: 50 \nBắn hỏa cầu gây sát thương và choáng, nếu hụt trúng chướng ngại vật có thể gây nổ lớn lên cả bản thân và địch\n\n-Dung hợp với điện cầu-\nChớp cầu | Sát thương : 45\nGiật trong phạm vi mỗi 12dame/s, trúng địch gây hiệu ứng tê liệt 5 dame `
     },
     'gojo': {
-        difficulty: 3,
+        difficulty: 2,
         passive: `Nội tại: X \nĐánh thường: X | Sát thương: 7`,
-        c1: ` Blue | Sát thương: 15 \nHút địch lại sau đó phát nổ`,
+        c1: ` Blue | Sát thương: 15 \nHút địch lại sau đó phát nổ\n\n-Dung hợp với red-\nVô Hạn Hợp Lực | Sát thương: 45\nHút địch lại phát nổ sau đó gây choáng thêm`,
         c2: ` Red | Sát thương: 30 \nBắn red gây sát thương và choáng`,
         c3: ` Purple | Sát thương: 125 \nBắn purple gây lượng lớn sát thương `
     },
     'law': {
-        difficulty: 4,
-        passive: `Nội tại: \nMọi đòn đánh đều phụ thuộc vào ROOM\nAmputate: \nĐòn đánh thường trong ROOM 100% hit và heal 2hp\nSát thương : 12`,
+        difficulty: 2,
+        passive: `Nội tại: \nMọi đòn đánh đều phụ thuộc vào ROOM\nRời giao tranh heal 2hp mỗi giây\nAmputate | Sát thương : 24\nĐòn đánh thường trong ROOM 100% hit và heal 10hp\n`,
         c1: ` ROOM \nTạo vùng không gian .`,
-        c2: ` Shambles \nHoán đổi vị trí với kẻ địch.`,
-        c3: ` Gamma Knife | Sát thương: 75 \nLướt tới và đâm vào địch.`
+        c2: ` Shambles \nHoán đổi vị trí với kẻ địch. Sau đó cường hóa đòn đánh thường kế `,
+        c3: ` Gamma Knife | Sát thương: 75 \nLướt tới và đâm vào địch gây dame kèm nhiễm điện `
     },
     'greninja': {
         difficulty: 1,
-        passive: `Nội tại: Ninja nước\n-Triple jump\n-Tăng tốc chạy và hồi dash\nĐánh thường: phi tiêu nước | Sát thương : 7.`,
+        passive: `Nội tại: Ninja nước\n-Triple jump\n-Tăng tốc chạy và hồi dash\n-Khi đứng gần địch đòn đánh thường sẽ chuyển thành Sóng âm thủy triều và tăng tốc chạy\nĐánh thường: phi tiêu nước | Sát thương : 10.\n\nSóng âm thủy triều | Sát thương : 15.`,
         c1: ` Liên hoàn phi tiêu nước | Sát thương : 6\nPhi liên tiếp 5 đợt phi tiêu lên địch`,
         c2: ` Lưỡi cắt phi tiêu | Sát thương : 6\nCắt liên tiếp lên địch nếu bị tiếp cận `,
         c3: ` Đại phi tiêu nước | Sát thương : 30-25 \nCắt 2 đợt phi tiêu lớn gây sát thương lần lượt 30->25 dame`
     },
     'steve': {
         difficulty: 4,
-        passive: `Nội tại: Kích hoạt totem khi bị hạ lần đầu.\nĐánh thường: Bắn cung | Sát thương : 10\nBắn cung tỉ lệ 50% ra các mũi tên hiệu ứng\n-Sát thương tức thì\n-Độc\n-Lửa\n-Chậm\n-Bay lên .`,
-        c1: `Kiếm kim cương | Sát thương :20\nChém 3 nhát kiếm phía trước mặt`,
-        c2: `Giáo kim cương | Sát thương :15\nLướt giáo một đoạn và gây sát thương`,
-        c3: `Elytra Mace | Sát thương :tăng theo độ cao\nSử dụng khi ở trên không bản thân rơi nhanh xuống gây lượng lớn sát thương`
-    },
-    'steve': {
-        difficulty: 4,
-        passive: `Nội tại: Kích hoạt totem khi bị hạ lần đầu.\nĐánh thường: Bắn cung | Sát thương : 10\nBắn cung tỉ lệ 50% ra các mũi tên hiệu ứng\n-Sát thương tức thì\n-Độc\n-Lửa\n-Chậm\n-Bay lên .`,
+        passive: `Nội tại: Kích hoạt totem khi bị hạ lần đầu.\nĐánh thường: Bắn cung | Sát thương : 10\nBắn cung tỉ lệ 50% ra các mũi tên hiệu ứng\n-Sát thương tức thì\n-Độc\n-Lửa\n-Chậm\n-Bay lên .\n\nEnchantment: cường hóa sức mạnh mỗi 7 giây`,
         c1: `Kiếm kim cương | Sát thương :20\nChém 3 nhát kiếm phía trước mặt`,
         c2: `Giáo kim cương | Sát thương :15\nLướt giáo một đoạn và gây sát thương`,
         c3: `Elytra Mace | Sát thương :tăng theo độ cao\nSử dụng khi ở trên không bản thân rơi nhanh xuống gây lượng lớn sát thương`
     },
     'alex': {
         difficulty: 2,
-        passive: `Đánh thường: Đâm Trident | Sát thương :9`,
-        c1: `Lòng trung thành | Sát thương :21\nPhóng trident về phía trước gây dame và quay ngược lại gây dame`,
-        c2: `Ender Pearl Trident | Sát thương :20\nPhóng trident có gắn ender pearl, trúng địch gây sát thương và dịch chuyển ra vị trí địch, đồng thời cường hóa sát thương`,
-        c3: `Chớp điện | Sát thương :40\nPhóng triden trúng địch tạo sấm sét gây lượng lớn sát thương và đốt máu phạm vi`
+        passive: `Đánh thường: Đâm Trident | Sát thương :9\n\nSức mạnh thủy triều | Sát thương :20\nĐòn đánh thường lướt nhẹ để đâm địch`,
+        c1: `Lòng trung thành | Sát thương :21/18\nPhóng trident về phía trước gây dame và quay ngược lại gây dame\nKèm theo 1 trident rược đuổi địch 2 lần mỗi khi ra ngoài map sau đó trở về, nếu trên đường bay nhặt lại được trident giảm hồi chiêu\nMỗi lần trident rược đuổi trúng địch sẽ giúp +1 điểm Sức mạnh thủy triều`,
+        c2: `Ender Pearl Trident | Sát thương :20\nPhóng trident có gắn ender pearl, trúng địch gây sát thương và dịch chuyển ra vị trí địch, đồng thời cường hóa sát thương, đồng thời tích 1 điểm Sức mạnh thủy triều`,
+        c3: `Chớp điện | Sát thương :40\nPhóng triden trúng địch tạo sấm sét gây lượng lớn sát thương và đốt máu phạm vi kèm hiệu ứng câm lặng \nTrúng địch lập tức hồi chiêu 1`
     },
     'ronaldo': {
         difficulty: 1,
-        passive: `Đánh thường: Sút bóng | Sát thương :35\nSát thương sẽ giảm dần khi càng ra xa`,
+        passive: `Đánh thường: Sút bóng | Sát thương :35\nSát thương sẽ giảm dần khi càng ra xa, tối thiểu 6`,
         c1: `Chân sút bóng đêm | Sát thương :50\nSát thương sẽ giảm 50% khi bóng chạm đất`,
         c2: `Chân sút hỏa thiêu | Sát thương :20\nSút 1 quả bóng lửa đuổi theo địch\n\tCẩn thận !`,
         c3: `Siuuuuu | Sát thương :?\nSút ngược mọi đòn đánh của đối thủ\n\tCó thể lấy luôn cả phòng thủ của địch (tính năng)`
@@ -88,8 +81,15 @@ const HeroData = {
         difficulty: 2,
         passive: `Đánh thường: Kiếm gầm | Sát thương : 4-8-10\n nội tại: Kiếm gầm\nĐòn đánh thương và chiêu 1 sẽ giúp hồi phục 0,04 và 0,06% HP`,
         c1: `Kiếm lưu ngân | Sát thương: 6-12-15\nChém nhiều nhát chém phía trước mặt kèm choáng`,
-        c2: `Kiếm toả mệnh | Sát thương: \nLướt lên gây dame và làm chậm`,
+        c2: `Kiếm toả mệnh | Sát thương: 5\nLướt lên gây dame và làm chậm`,
         c3: `Kiếm tất sát | Sát thương: 35 \nKhóa mục tiêu và gây sát thương đồng thời bản thân nhận máu ảo, máu càng thấp máu ảo càng nhiều`
+    },
+    'mgpea': {
+        difficulty: 1,
+        passive: `Nội tại:\nSupper Gatling | Số đạn: 60\nCó tỉ lệ 5% bắn chuỗi đạn 60 viên theo dạng trong 2,25s trong thời gian này bản thân bất tử\n\nĐạn đỗ | Sát thương: 7\n\nĐánh thường :\nGatling | Số đạn: 4\nBắn chuỗi 4 viên đạn theo hệ`,
+        c1: `Hỏa thiêu (không thể kích hoạt khi sử dụng chiêu 3):\nCường hóa 3 đòn đánh kế thay bằng đạn lửa cơ bản`,
+        c2: `MegaGatling:\nKích hoạt đòn Supper Gatling cho đòn đánh thường kế`,
+        c3: ``
     },
     'shadowpea': {
         difficulty: 2,

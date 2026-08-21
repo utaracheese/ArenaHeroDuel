@@ -1,4 +1,4 @@
-/*CutTaraxacum (ngoại hình là chim cánh cụt xám sáng có đầy đủ cánh chân):
+/*CutTaraxacum (ngoại hình là chim cánh cụt xám sáng có đầy đủ cánh chân nhưng phải đơn giản và dễ nhìn):
 thêm hiệu ứng : assets/icon/buff/cut_knight.png (sử dụng để kích hoạt nội tại dạng đấu sĩ)
 thêm hiệu ứng assets/icon/buff/cut_magic (assets/icon/buff/hasteatk.png) phần thời gian là stack cộng dồn  : mỗi lần ở dạng pháp sư đánh trúng địch bản thân sẽ được +1 điểm mỗi điểm +2,5% tốc đánh , chuyển dạng vẫn giữ nội tại nhưng chỉ tăng cho dạng pháp sư
 thêm hiệu ứng : assets/icon/debuff/stunf.png (giống stuncc nhưng khi gặp hiệu ứng flame hiệu ứng này sẽ bị hủy ngay lập tức) (tương tác đặc biệt: tanjiro nhận thêm 2dame/s nếu nhận hiệu ứng này, tanjirov2 sẽ chuyển hiệu ứng này thành assets/icon/debuff/slowness 25% và giữ nguyên thời gian)
@@ -24,3 +24,4 @@ chiêu 2 : xoay tròn (trong game sẽ là oval) gây sát thương trái phải
 chiêu 3 : chém trong phạm vi bán kính 200px liên tiếp 6 lần trong 0,5s mỗi lần 4dame kèm hiệu ứng slowness 50% 2s trong nhát chém đầu sau đo tạo vùng 200px sáng dần trong 0,75s rồi nổ gây choáng 0,7s gây 20dame
 class tướng tại Cuttaraxacum.js nhưng vẫn phải giữ pick tướng, random tướng, triggerskill, excuteskill,draw,... ở arenaheroduel như các tướng khác 
 */
+
