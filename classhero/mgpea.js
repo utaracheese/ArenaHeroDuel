@@ -1,6 +1,111 @@
-// ==========================================
-// TƯỚNG: MEGA GATLING PEA (mgpea) - FULL 12 FORMS
-// ==========================================
+// =========================================================================
+// TƯỚNG: MEGA GATLING PEA (mgpea) - FULL 12 FORMS & TỰ ĐỘNG CHỌN DẠNG CỐ ĐỊNH
+// =========================================================================
+
+// --- 1. TỰ ĐỘNG KHỞI TẠO GIAO DIỆN CHỌN DẠNG (INJECT UI & CSS TỪ JS) ---
+(function setupMgpeaUI() {
+    // Tiêm CSS giao diện dropdown
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .mgpea-form-select {
+            margin-left: 8px;
+            background: #111;
+            color: #7cfc00;
+            border: 2px solid #7cfc00;
+            border-radius: 6px;
+            padding: 3px 6px;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            outline: none;
+            vertical-align: middle;
+            box-shadow: 0 0 8px rgba(124, 252, 0, 0.4);
+            transition: 0.2s;
+        }
+        .mgpea-form-select:hover {
+            background: #222;
+            box-shadow: 0 0 12px #7cfc00;
+        }
+        .mgpea-form-select option {
+            background: #1a1a1a;
+            color: #fff;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Danh sách 12 dạng + 1 dạng mặc định
+    window.mgpeaFormsList = [
+        { id: 'default', name: '⚡ Mặc định (Random C3)' },
+        { id: 'scissor', name: '✂️ Kéo cắt (Ong gai)' },
+        { id: 'sun', name: '☀️ Mặt trời' },
+        { id: 'water', name: '🌊 Nước' },
+        { id: 'fire', name: '🔥 Lửa' },
+        { id: 'ice', name: '❄️ Băng' },
+        { id: 'electric', name: '⚡ Điện' },
+        { id: 'poison', name: '☠️ Độc' },
+        { id: 'defense', name: '🛡️ Phòng thủ (Peanut)' },
+        { id: 'primal', name: '🦖 Cổ đại' },
+        { id: 'threepeater', name: '👥 3 Đầu' },
+        { id: 'bomb', name: '💣 Nổ' },
+        { id: 'pod', name: '🫛 Pháo đậu' }
+    ];
+
+    window.mgpeaSelectedForms = { 1: 'default', 2: 'default' };
+
+    // Hook hàm selectHero để tự động chèn Dropdown khi pick mgpea
+    const prevSelectHero = window.selectHero;
+    window.selectHero = function(player, heroId, heroName) {
+        if (typeof prevSelectHero === 'function') {
+            prevSelectHero.apply(this, arguments);
+        }
+
+        let chosenEl = document.getElementById(player === 1 ? 'p1-chosen' : 'p2-chosen');
+        if (chosenEl) {
+            // Xóa dropdown cũ nếu có
+            let oldSelect = chosenEl.querySelector('.mgpea-form-select');
+            if (oldSelect) oldSelect.remove();
+
+            if (heroId === 'mgpea') {
+                let select = document.createElement('select');
+                select.className = 'mgpea-form-select';
+                select.id = `p${player}-mgpea-form-select`;
+
+                window.mgpeaFormsList.forEach(f => {
+                    let opt = document.createElement('option');
+                    opt.value = f.id;
+                    opt.innerText = f.name;
+                    select.appendChild(opt);
+                });
+
+                select.value = window.mgpeaSelectedForms[player] || 'default';
+                select.onchange = (e) => {
+                    window.mgpeaSelectedForms[player] = e.target.value;
+                };
+
+                chosenEl.appendChild(select);
+            } else {
+                window.mgpeaSelectedForms[player] = 'default';
+            }
+        }
+    };
+
+    // Hook hàm startGame để tự truyền dạng đã chọn vào Player
+    const prevStartGame = window.startGame;
+    window.startGame = function() {
+        if (typeof prevStartGame === 'function') {
+            prevStartGame.apply(this, arguments);
+        }
+        if (typeof player1 !== 'undefined' && player1 && player1.heroType === 'mgpea') {
+            player1.fixedMgpeaForm = window.mgpeaSelectedForms[1] || 'default';
+            player1.initMegaGatlingPea();
+        }
+        if (typeof player2 !== 'undefined' && player2 && player2.heroType === 'mgpea') {
+            player2.fixedMgpeaForm = window.mgpeaSelectedForms[2] || 'default';
+            player2.initMegaGatlingPea();
+        }
+    };
+})();
 
 // --- HÀM TÍNH GÓC BẮN THEO PHÂN PHỐI PARABOL TRỌNG SỐ TÂM ---
 function getParabolicSpreadAngle(maxAngleDeg) {
@@ -263,18 +368,15 @@ class SolarLaserBeam {
         this.timer = 12; // 0.2s hiển thị
         this.active = true;
 
-        // Tính toạ độ đích
         let length = 2000;
         this.endX = startX + Math.cos(angle) * length;
         this.endY = startY + Math.sin(angle) * length;
 
-        // Hồi 6 HP cho chủ thể
         if (owner && !owner.isDead) {
             owner.hp = Math.min(owner.maxHp, owner.hp + 6);
             effects.push(new DamageText(owner.x + 10, owner.y - 20, "+6 HP", '#ffd700'));
         }
 
-        // Gây sát thương lập tức cho kẻ địch
         let enemy = (owner === player1) ? player2 : player1;
         if (enemy && !enemy.isDead) {
             let p1 = { x: this.startX, y: this.startY };
@@ -338,13 +440,13 @@ class MegaGatlingPeaBullet {
         this.customStun = stunDuration;
         this.zapTimer = 0;
 
-        if (bulletType === 'scissor') { // Đạn Ong Gai (Kéo cắt)
+        if (bulletType === 'scissor') {
             this.radius = 6;
             this.damage = 10;
-        } else if (bulletType === 'sun') { // Đạn Mặt Trời
+        } else if (bulletType === 'sun') {
             this.radius = 7;
             this.damage = 6;
-        } else if (bulletType === 'water') { // Đạn Nước
+        } else if (bulletType === 'water') {
             this.radius = 7.5;
             this.damage = 12;
         } else if (bulletType === 'bomb') {
@@ -395,7 +497,6 @@ class MegaGatlingPeaBullet {
         this.x += this.vx;
         this.y += this.vy;
 
-        // CƠ CHẾ GIẬT SÉT AOE CỦA ĐẠN ĐIỆN
         if (this.bulletType === 'electric') {
             this.zapTimer++;
             if (this.zapTimer >= 9) {
@@ -419,7 +520,6 @@ class MegaGatlingPeaBullet {
             }
         }
 
-        // VỆT HẠT BAY THEO ĐẠN (VFX)
         if (this.bulletType === 'water' && Math.random() < 0.5) {
             effects.push(new RockParticle(this.x, this.y, -this.vx * 0.1, (Math.random() - 0.5) * 2, '#00bfff'));
         } else if (this.bulletType === 'sun' && Math.random() < 0.4) {
@@ -461,24 +561,21 @@ class MegaGatlingPeaBullet {
         if (!this.active) return;
         ctx.save();
 
-        if (this.bulletType === 'scissor') { // HÌNH CON ONG GAI CHĨA KIM
+        if (this.bulletType === 'scissor') {
             let angle = Math.atan2(this.vy, this.vx);
             ctx.translate(this.x, this.y);
             ctx.rotate(angle);
 
-            // Thân ong vàng sọc đen
             ctx.fillStyle = '#ffd700';
             ctx.beginPath(); ctx.ellipse(0, 0, 9, 6, 0, 0, Math.PI * 2); ctx.fill();
             ctx.fillStyle = '#111111';
             ctx.fillRect(-2, -6, 3, 12);
             ctx.fillRect(3, -5, 2.5, 10);
 
-            // Cánh ong trắng mỏng
             ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
             ctx.beginPath(); ctx.ellipse(-2, -7, 4, 2, Math.PI / 4, 0, Math.PI * 2); ctx.fill();
             ctx.beginPath(); ctx.ellipse(-2, 7, 4, 2, -Math.PI / 4, 0, Math.PI * 2); ctx.fill();
 
-            // Kim gai nhọn hoắt chĩa về phía trước
             ctx.fillStyle = '#222';
             ctx.beginPath();
             ctx.moveTo(9, -2);
@@ -486,12 +583,12 @@ class MegaGatlingPeaBullet {
             ctx.lineTo(9, 2);
             ctx.closePath();
             ctx.fill();
-        } else if (this.bulletType === 'sun') { // ĐẠN MẶT TRỜI
+        } else if (this.bulletType === 'sun') {
             ctx.fillStyle = '#ffff33';
             ctx.shadowBlur = 15; ctx.shadowColor = '#ffd700';
             ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fill();
             ctx.strokeStyle = '#ffa500'; ctx.lineWidth = 2; ctx.stroke();
-        } else if (this.bulletType === 'water') { // ĐẠN NƯỚC HẢI QUÂN
+        } else if (this.bulletType === 'water') {
             ctx.fillStyle = '#00bfff';
             ctx.shadowBlur = 12; ctx.shadowColor = '#1e90ff';
             ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fill();
@@ -561,17 +658,15 @@ class MegaGatlingPeaBullet {
         if (target === this.owner) return;
         if (this.bulletType === 'electric') return;
 
-        // HIỆU ỨNG ĐẠN ONG GAI (KÉO CẮT): CHOÁNG
         if (this.bulletType === 'scissor') {
             target.takeDamage(this.damage);
-            let stunFrames = this.customStun || 9; // 0.15s = 9 frames
+            let stunFrames = this.customStun || 9;
             target.addStatus('stuncc', 'debuff', 'assets/icon/debuff/stuncc.png', stunFrames, 0, 60);
             effects.push(new Explosion(this.x, this.y, 20, '#ffd700'));
             this.active = false;
             return;
         }
 
-        // HIỆU ỨNG ĐẠN MẶT TRỜI: HỒI 1 HP CHO CHỦ NHÂN
         if (this.bulletType === 'sun') {
             target.takeDamage(this.damage);
             if (this.owner && !this.owner.isDead) {
@@ -583,7 +678,6 @@ class MegaGatlingPeaBullet {
             return;
         }
 
-        // HIỆU ỨNG ĐẠN NƯỚC HẢI QUÂN
         if (this.bulletType === 'water') {
             target.takeDamage(this.damage);
             effects.push(new Explosion(this.x, this.y, 25, '#00bfff'));
@@ -659,8 +753,23 @@ Player.prototype.initMegaGatlingPea = function() {
         this.mgpeaGatlingCount = 0;     
         this.mgpeaMuzzleAnim = 0;       
         this.mgpeaPeanutTopTurn = true;
+        this.isFixedMgpeaForm = false;
 
         this.maxCds = { c1: 480, c2: 600, c3: 600 };
+
+        // XỬ LÝ KHÓA DẠNG CỐ ĐỊNH NẾU ĐƯỢC CHỌN
+        if (this.fixedMgpeaForm && this.fixedMgpeaForm !== 'default') {
+            this.isFixedMgpeaForm = true;
+            this.mgpeaForm = this.fixedMgpeaForm;
+            this.mgpeaFormTimer = 999999;
+            this.cds.c1 = 999999;
+            this.cds.c3 = 999999;
+
+            if (this.fixedMgpeaForm === 'defense') {
+                this.addStatus('bhshield', 'buff', 'assets/icon/buff/hshield.png', 999999, this.hp, 60);
+                this.boomShield = this.hp;
+            }
+        }
     }
 };
 
@@ -673,63 +782,67 @@ Player.prototype.update = function() {
         if (this.mgpeaMuzzleAnim > 0) this.mgpeaMuzzleAnim--;
 
         if (this.mgpeaForm) {
-            this.mgpeaFormTimer--;
-            if (this.mgpeaFormTimer <= 0) {
-                this.mgpeaForm = null;
-                this.cds.c3 = 600;
-                this.removeStatus('mgpea_form_status');
+            if (this.isFixedMgpeaForm) {
+                this.mgpeaFormTimer = 999999;
+                this.cds.c1 = 999999;
+                this.cds.c3 = 999999;
             } else {
-                if (this.mgpeaForm === 'fire') {
-                    if (Math.random() < 0.4) {
-                        effects.push(new FireParticle(
-                            this.x + Math.random() * this.width, this.y + Math.random() * this.height,
-                            (Math.random() - 0.5) * 1.5, -Math.random() * 2 - 1, 5, 18,
-                            Math.random() < 0.2 ? '#00ffff' : '#ff4500'
-                        ));
-                    }
-                } else if (this.mgpeaForm === 'ice') {
-                    if (Math.random() < 0.3) {
-                        effects.push(new RockParticle(
-                            this.x + Math.random() * this.width, this.y + Math.random() * this.height,
-                            (Math.random() - 0.5) * 1.5, (Math.random() - 0.5) * 1.5, '#00ffff'
-                        ));
-                    }
-                } else if (this.mgpeaForm === 'electric') {
-                    if (Math.random() < 0.25) {
-                        effects.push(new LightningZap(
-                            this.x + Math.random() * this.width, this.y + Math.random() * this.height,
-                            this.x + Math.random() * this.width + (Math.random() - 0.5) * 30, this.y + (Math.random() - 0.5) * 30,
-                            '#00ffff'
-                        ));
-                    }
-                } else if (this.mgpeaForm === 'poison') {
-                    if (Math.random() < 0.3) {
-                        effects.push(new Explosion(
-                            this.x + Math.random() * this.width, this.y + this.height + (Math.random() - 0.5) * 6,
-                            6, 'rgba(148, 0, 211, 0.6)'
-                        ));
-                    }
-                } else if (this.mgpeaForm === 'sun') {
-                    if (Math.random() < 0.35) {
-                        effects.push(new FireParticle(
-                            this.x + Math.random() * this.width, this.y + Math.random() * this.height,
-                            (Math.random() - 0.5) * 2, -Math.random() * 2, 4, 15, '#ffd700'
-                        ));
-                    }
-                } else if (this.mgpeaForm === 'water') {
-                    if (Math.random() < 0.35) {
-                        effects.push(new RockParticle(
-                            this.x + Math.random() * this.width, this.y + this.height,
-                            (Math.random() - 0.5) * 2, -Math.random() * 2, '#00bfff'
-                        ));
-                    }
+                this.mgpeaFormTimer--;
+                if (this.mgpeaFormTimer <= 0) {
+                    this.mgpeaForm = null;
+                    this.cds.c3 = 600;
+                    this.removeStatus('mgpea_form_status');
+                }
+            }
+
+            if (this.mgpeaForm === 'fire') {
+                if (Math.random() < 0.4) {
+                    effects.push(new FireParticle(
+                        this.x + Math.random() * this.width, this.y + Math.random() * this.height,
+                        (Math.random() - 0.5) * 1.5, -Math.random() * 2 - 1, 5, 18,
+                        Math.random() < 0.2 ? '#00ffff' : '#ff4500'
+                    ));
+                }
+            } else if (this.mgpeaForm === 'ice') {
+                if (Math.random() < 0.3) {
+                    effects.push(new RockParticle(
+                        this.x + Math.random() * this.width, this.y + Math.random() * this.height,
+                        (Math.random() - 0.5) * 1.5, (Math.random() - 0.5) * 1.5, '#00ffff'
+                    ));
+                }
+            } else if (this.mgpeaForm === 'electric') {
+                if (Math.random() < 0.25) {
+                    effects.push(new LightningZap(
+                        this.x + Math.random() * this.width, this.y + Math.random() * this.height,
+                        this.x + Math.random() * this.width + (Math.random() - 0.5) * 30, this.y + (Math.random() - 0.5) * 30,
+                        '#00ffff'
+                    ));
+                }
+            } else if (this.mgpeaForm === 'poison') {
+                if (Math.random() < 0.3) {
+                    effects.push(new Explosion(
+                        this.x + Math.random() * this.width, this.y + this.height + (Math.random() - 0.5) * 6,
+                        6, 'rgba(148, 0, 211, 0.6)'
+                    ));
+                }
+            } else if (this.mgpeaForm === 'sun') {
+                if (Math.random() < 0.35) {
+                    effects.push(new FireParticle(
+                        this.x + Math.random() * this.width, this.y + Math.random() * this.height,
+                        (Math.random() - 0.5) * 2, -Math.random() * 2, 4, 15, '#ffd700'
+                    ));
+                }
+            } else if (this.mgpeaForm === 'water') {
+                if (Math.random() < 0.35) {
+                    effects.push(new RockParticle(
+                        this.x + Math.random() * this.width, this.y + this.height,
+                        (Math.random() - 0.5) * 2, -Math.random() * 2, '#00bfff'
+                    ));
                 }
             }
         }
 
-        // =========================================================================
-        // XỬ LÝ BẮN NỘI TẠI GATLING (TẤT CẢ CÁC DẠNG)
-        // =========================================================================
+        // XỬ LÝ BẮN NỘI TẠI GATLING
         if (this.mgpeaGatlingActive) {
             this.mgpeaGatlingTimer++;
 
@@ -738,7 +851,6 @@ Player.prototype.update = function() {
             this.addStatus('ironbody', 'buff', 'assets/icon/buff/ironbody.png', 10, 0, 60);
             this.mgpeaMuzzleAnim = 10;
 
-            // 1. DẠNG PHÒNG THỦ: Xả 6 quả Wall-nut lăn tròn
             if (this.mgpeaForm === 'defense') {
                 let maxWallNuts = 6;
                 let targetShots = Math.floor((this.mgpeaGatlingTimer / 135) * maxWallNuts);
@@ -760,16 +872,14 @@ Player.prototype.update = function() {
                     projectiles.push(new RollingWallNut(spawnX, spawnY, vx, vy, this));
                 }
             } 
-            // 2. DẠNG PHÁO ĐẬU (POD): Bão 120 viên pháo rơi
             else if (this.mgpeaForm === 'pod') {
                 if (this.mgpeaGatlingTimer === 10 || this.mgpeaGatlingTimer === 50 || this.mgpeaGatlingTimer === 90) {
                     projectiles.push(new PeaPodVolleySpawner(this, 40, 75));
                     effects.push(new Explosion(this.x + this.width / 2, this.y - 10, 50, '#adff2f'));
                 }
             } 
-            // 3. DẠNG NƯỚC (WATER): BẮN 60 VIÊN PHÂN PHỐI 3 HƯỚNG MỖI HƯỚNG LỆCH TỐI ĐA 15 ĐỘ
-                        else if (this.mgpeaForm === 'water') {
-                let maxWaves = 60; // 60 đợt bắn, mỗi đợt bắn ra 3 viên ở 3 hướng (Tổng 180 viên)
+            else if (this.mgpeaForm === 'water') {
+                let maxWaves = 60;
                 let targetWaves = Math.floor((this.mgpeaGatlingTimer / 135) * maxWaves);
 
                 while (this.mgpeaGatlingCount < targetWaves && this.mgpeaGatlingCount < maxWaves) {
@@ -778,13 +888,9 @@ Player.prototype.update = function() {
                     let spawnX = this.facingRight ? this.x + this.width + 16 : this.x - 16;
                     let spawnY = this.y + 16;
                     let baseAngle = this.facingRight ? 0 : Math.PI;
-
-                    // 3 trục chính: Bắn thẳng 0°, Chếch lên -15°, Chếch xuống +15°
                     let mainAngles = [-15, 0, 15];
 
-                    // Bắn cùng lúc cả 3 hướng trong mỗi đợt
                     for (let mainDeg of mainAngles) {
-                        // Mỗi hướng lệch tối đa 15 độ quanh trục chính đó theo phân phối Parabol
                         let devAngle = getParabolicSpreadAngle(15);
                         let finalAngle = baseAngle + ((mainDeg * Math.PI / 180) + devAngle);
 
@@ -796,7 +902,6 @@ Player.prototype.update = function() {
                     }
                 }
             }
-            // 4. DẠNG KÉO CẮT / ONG GAI (SCISSOR): 60 CON ONG GAI TỐC ĐỘ CỰC CAO GÂY CHOÁNG 1.5S
             else if (this.mgpeaForm === 'scissor') {
                 let maxBees = 60;
                 let targetShots = Math.floor((this.mgpeaGatlingTimer / 135) * maxBees);
@@ -811,14 +916,13 @@ Player.prototype.update = function() {
                     let baseAngle = this.facingRight ? 0 : Math.PI;
                     let finalAngle = baseAngle + spreadAngle;
 
-                    let speed = 32 + Math.random() * 5; // Tốc độ cực cao
+                    let speed = 32 + Math.random() * 5;
                     let vx = Math.cos(finalAngle) * speed;
                     let vy = Math.sin(finalAngle) * speed;
 
-                    projectiles.push(new MegaGatlingPeaBullet(spawnX, spawnY, vx, vy, this, 'scissor', 90)); // Choáng 1.5s = 90 frames
+                    projectiles.push(new MegaGatlingPeaBullet(spawnX, spawnY, vx, vy, this, 'scissor', 90));
                 }
             }
-            // 5. DẠNG MẶT TRỜI (SUN): 60 VIÊN ĐỖ MẶT TRỜI, 15% HÓA THÀNH TIA LAZE
             else if (this.mgpeaForm === 'sun') {
                 let maxSunGatling = 60;
                 let targetShots = Math.floor((this.mgpeaGatlingTimer / 135) * maxSunGatling);
@@ -834,7 +938,6 @@ Player.prototype.update = function() {
                     let finalAngle = baseAngle + spreadAngle;
 
                     if (Math.random() < 0.15) {
-                        // 15% ra Laze Mặt Trời
                         projectiles.push(new SolarLaserBeam(spawnX, spawnY, finalAngle, this));
                     } else {
                         let speed = 24 + Math.random() * 4;
@@ -844,7 +947,6 @@ Player.prototype.update = function() {
                     }
                 }
             }
-            // 6. CÁC DẠNG CÒN LẠI
             else {
                 let maxGatlingBullets = (this.mgpeaForm === 'threepeater') ? 180 : 60;
                 let targetShots = Math.floor((this.mgpeaGatlingTimer / 135) * maxGatlingBullets);
@@ -910,9 +1012,6 @@ Player.prototype.executeMegaGatlingPeaSkill = function(skillKey) {
 
         playSkillSound('assets/sounds/sound_skill/mgpea/base.ogg');
 
-        // ==========================================
-        // 1. DẠNG KÉO CẮT (SCISSOR): 4 CON ONG GAI TỐC ĐỘ CAO CHOÁNG 0.15S
-        // ==========================================
         if (this.mgpeaForm === 'scissor') {
             this.mgpeaMuzzleAnim = 20;
             let spawnX = this.facingRight ? this.x + this.width + 16 : this.x - 16;
@@ -920,15 +1019,12 @@ Player.prototype.executeMegaGatlingPeaSkill = function(skillKey) {
 
             for (let i = 0; i < 4; i++) {
                 let posX = spawnX - (i * dir * 12);
-                projectiles.push(new MegaGatlingPeaBullet(posX, spawnY, dir * 30, 0, this, 'scissor', 9)); // Choáng 0.15s
+                projectiles.push(new MegaGatlingPeaBullet(posX, spawnY, dir * 30, 0, this, 'scissor', 9));
             }
             this.x -= dir * 3;
             return;
         }
 
-        // ==========================================
-        // 2. DẠNG MẶT TRỜI (SUN): 6 DMG + HEAL 1 HP | 10% RA LAZE 14 DMG + HEAL 6 HP
-        // ==========================================
         if (this.mgpeaForm === 'sun') {
             this.mgpeaMuzzleAnim = 20;
             let spawnX = this.facingRight ? this.x + this.width + 16 : this.x - 16;
@@ -948,9 +1044,6 @@ Player.prototype.executeMegaGatlingPeaSkill = function(skillKey) {
             return;
         }
 
-        // ==========================================
-        // 3. DẠNG NƯỚC (WATER): 4 THẲNG, 4 LỆCH +15°, 4 LỆCH -15° (GÂY 12 DMG)
-        // ==========================================
         if (this.mgpeaForm === 'water') {
             this.mgpeaMuzzleAnim = 20;
             let spawnX = this.facingRight ? this.x + this.width + 16 : this.x - 16;
@@ -973,9 +1066,6 @@ Player.prototype.executeMegaGatlingPeaSkill = function(skillKey) {
             return;
         }
 
-        // ==========================================
-        // 4. CÁC DẠNG CÒN LẠI (POD, DEFENSE, THREEPEATER, v.v.)
-        // ==========================================
         if (this.mgpeaForm === 'pod') {
             this.mgpeaMuzzleAnim = 25;
             projectiles.push(new PeaPodVolleySpawner(this, 20, 80));
@@ -1062,7 +1152,7 @@ Player.prototype.executeMegaGatlingPeaSkill = function(skillKey) {
         this.x -= dir * 3;
     }
     else if (skillKey === 'c1') {
-        if (this.mgpeaForm) return;
+        if (this.mgpeaForm || this.isFixedMgpeaForm) return;
         this.mgpeaEnhancedShots = 3;
         this.addStatus('flame', 'buff', 'assets/icon/debuff/flame.png', 'inf', 3, 60);
         effects.push(new Explosion(this.x + 15, this.y + 25, 40, '#ff4500'));
@@ -1073,12 +1163,13 @@ Player.prototype.executeMegaGatlingPeaSkill = function(skillKey) {
         effects.push(new Explosion(this.x + 15, this.y + 25, 35, '#7cfc00'));
     }
     else if (skillKey === 'c3') {
-        // TỔNG HỢP 12 DẠNG BIẾN THỂ
+        if (this.isFixedMgpeaForm) return;
+
         let formPool = ['fire', 'ice', 'electric', 'poison', 'defense', 'primal', 'threepeater', 'bomb', 'pod', 'scissor', 'sun', 'water'];
         let chosenForm = formPool[Math.floor(Math.random() * formPool.length)];
 
         this.mgpeaForm = chosenForm;
-        this.mgpeaFormTimer = 600; // 10s
+        this.mgpeaFormTimer = 600;
         this.cds.c3 = 999999;
         this.mgpeaPeanutTopTurn = true;
 
@@ -1128,25 +1219,32 @@ Player.prototype.triggerSkill = function(skillKey) {
             return;
         }
 
+        // CẤM C1 VÀ C3 NẾU ĐANG Ở DẠNG CỐ ĐỊNH
+        if (this.isFixedMgpeaForm && (skillKey === 'c1' || skillKey === 'c3')) {
+            effects.push(new DamageText(this.x, this.y - 20, "Bị Khóa!", '#ff3333'));
+            return;
+        }
+
         if (skillKey === 'basic' && !this.mgpeaGatlingActive) {
             this.executeMegaGatlingPeaSkill('basic');
 
             if (this.mgpeaForm === 'bomb' || this.mgpeaForm === 'pod') {
-                this.cds.basic = 90; // 1.5s
+                this.cds.basic = 90;
             } else if (this.mgpeaForm === 'defense') {
                 let isLowHp = (this.hp < this.maxHp * 0.5);
                 this.cds.basic = isLowHp ? 72 : 36;
             } else {
-                this.cds.basic = 45; // 0.75s
+                this.cds.basic = 45;
             }
         } else if (skillKey === 'c1' && this.cds.c1 <= 0 && !this.mgpeaGatlingActive) {
-            if (this.mgpeaForm) return;
+            if (this.mgpeaForm || this.isFixedMgpeaForm) return;
             this.executeMegaGatlingPeaSkill('c1');
             this.cds.c1 = 480;
         } else if (skillKey === 'c2' && this.cds.c2 <= 0 && !this.mgpeaGatlingActive) {
             this.executeMegaGatlingPeaSkill('c2');
             this.cds.c2 = 600;
         } else if (skillKey === 'c3' && this.cds.c3 <= 0 && !this.mgpeaForm && !this.mgpeaGatlingActive) {
+            if (this.isFixedMgpeaForm) return;
             this.executeMegaGatlingPeaSkill('c3');
         }
     } else {
@@ -1164,23 +1262,18 @@ Player.prototype.draw = function() {
         let dir = this.facingRight ? 1 : -1;
         let isShooting = (this.mgpeaMuzzleAnim > 0 || this.mgpeaGatlingActive);
 
-        // ==========================================
-        // DẠNG MỚI 1: KÉO CẮT / ONG GAI (SCISSOR - MŨ GAI NHỌN, KHĂN RẰN ĐEN)
-        // ==========================================
+        // 1. DẠNG KÉO CẮT / ONG GAI (SCISSOR)
         if (this.mgpeaForm === 'scissor') {
             ctx.fillStyle = '#228b22'; ctx.fillRect(cx - 3, cy + 5, 6, this.height / 2 - 5);
             ctx.fillStyle = '#32cd32';
             ctx.beginPath(); ctx.ellipse(cx - 10, this.y + this.height - 3, 11, 4, 0, 0, Math.PI * 2); ctx.ellipse(cx + 10, this.y + this.height - 3, 11, 4, 0, 0, Math.PI * 2); ctx.fill();
 
-            // Thân vàng chiến binh
             ctx.fillStyle = '#ffd700';
             ctx.beginPath(); ctx.arc(cx, this.y + 16, 17, 0, Math.PI * 2); ctx.fill();
 
-            // Khăn rằn đen quanh cổ
             ctx.fillStyle = '#111111';
             ctx.beginPath(); ctx.moveTo(cx - 14, this.y + 26); ctx.lineTo(cx + 14, this.y + 26); ctx.lineTo(cx, this.y + 36); ctx.closePath(); ctx.fill();
 
-            // Miệng bắn
             let mouthX = this.facingRight ? cx + 12 : cx - 22;
             let mouthY = this.y + 10;
             ctx.fillStyle = '#e6c200';
@@ -1188,24 +1281,20 @@ Player.prototype.draw = function() {
             ctx.fillStyle = '#111';
             ctx.beginPath(); ctx.ellipse(mouthX + (this.facingRight ? 9 : 1), mouthY + 7, 4, 7, 0, 0, Math.PI * 2); ctx.fill();
 
-            // Mắt chiến binh
             ctx.fillStyle = '#ffffff';
             let eyeX = this.facingRight ? cx + 2 : cx - 10;
             ctx.beginPath(); ctx.ellipse(eyeX, this.y + 11, 4, 6, 0, 0, Math.PI * 2); ctx.fill();
             ctx.fillStyle = '#000000';
             ctx.beginPath(); ctx.arc(eyeX + (this.facingRight ? 1.5 : -1.5), this.y + 11, 2.5, 0, Math.PI * 2); ctx.fill();
 
-            // Sơn mặt chiến binh
             ctx.fillStyle = '#111111';
             let paintX = this.facingRight ? cx + 6 : cx - 12;
             ctx.fillRect(paintX, this.y + 19, 7, 2.5);
 
-            // Mũ bảo hiểm sắt gai nhọn (Spike Helmet)
             ctx.fillStyle = '#3a3a3a';
             ctx.beginPath(); ctx.arc(cx - dir * 2, this.y + 6, 19, Math.PI, 0); ctx.fill();
             ctx.fillStyle = '#222'; ctx.fillRect(cx - 21, this.y + 4, 40, 4);
 
-            // Các gai sắt nhọn hoắt đâm lên từ mũ
             ctx.fillStyle = '#222222'; ctx.strokeStyle = '#666'; ctx.lineWidth = 1;
             let spikeAngles = [-Math.PI * 0.8, -Math.PI * 0.5, -Math.PI * 0.2];
             for (let sa of spikeAngles) {
@@ -1219,7 +1308,6 @@ Player.prototype.draw = function() {
                 ctx.fill(); ctx.stroke();
             }
 
-            // Biểu tượng dơi/sói trên mũ
             ctx.fillStyle = '#cccccc';
             ctx.beginPath();
             ctx.moveTo(cx - 6, this.y - 4); ctx.lineTo(cx, this.y - 12); ctx.lineTo(cx + 6, this.y - 4); ctx.lineTo(cx, this.y - 7);
@@ -1236,11 +1324,8 @@ Player.prototype.draw = function() {
             return;
         }
 
-        // ==========================================
-        // DẠNG MỚI 2: MẶT TRỜI (SUN - HÀO QUANG, MŨ ĐẠI TƯỚNG HOÀNG GIA)
-        // ==========================================
+        // 2. DẠNG MẶT TRỜI (SUN)
         if (this.mgpeaForm === 'sun') {
-            // Hào quang mặt trời xoay sau đầu
             ctx.save();
             ctx.translate(cx, this.y + 12);
             ctx.rotate(Date.now() / 800);
@@ -1256,13 +1341,11 @@ Player.prototype.draw = function() {
             ctx.fillStyle = '#32cd32';
             ctx.beginPath(); ctx.ellipse(cx - 10, this.y + this.height - 3, 11, 4, 0, 0, Math.PI * 2); ctx.ellipse(cx + 10, this.y + this.height - 3, 11, 4, 0, 0, Math.PI * 2); ctx.fill();
 
-            // Thân vàng chói sáng
             ctx.fillStyle = '#ffff66';
             ctx.shadowBlur = 15; ctx.shadowColor = '#ffd700';
             ctx.beginPath(); ctx.arc(cx, this.y + 16, 17, 0, Math.PI * 2); ctx.fill();
             ctx.shadowBlur = 0;
 
-            // Nòng súng vàng hoàng kim
             let mouthX = this.facingRight ? cx + 12 : cx - 22;
             let mouthY = this.y + 10;
             ctx.fillStyle = '#ffd700';
@@ -1270,7 +1353,6 @@ Player.prototype.draw = function() {
             ctx.fillStyle = '#fff';
             ctx.beginPath(); ctx.ellipse(mouthX + (this.facingRight ? 9 : 1), mouthY + 7, 4, 7, 0, 0, Math.PI * 2); ctx.fill();
 
-            // Mắt phát sáng ánh vàng
             ctx.fillStyle = '#ffffff';
             let eyeX = this.facingRight ? cx + 2 : cx - 10;
             ctx.beginPath(); ctx.ellipse(eyeX, this.y + 11, 4, 6, 0, 0, Math.PI * 2); ctx.fill();
@@ -1278,16 +1360,13 @@ Player.prototype.draw = function() {
             ctx.beginPath(); ctx.arc(eyeX + (this.facingRight ? 1.5 : -1.5), this.y + 11, 2.5, 0, Math.PI * 2); ctx.fill();
             ctx.shadowBlur = 0;
 
-            // Mũ đại tướng xanh đen viền vàng hoàng gia
             ctx.fillStyle = '#102830';
             ctx.beginPath(); ctx.arc(cx - dir * 2, this.y + 6, 19, Math.PI, 0); ctx.fill();
             ctx.fillStyle = '#0a1a20'; ctx.fillRect(cx - 21, this.y + 4, 40, 4);
 
-            // Quai mũ da cài qua cằm
             ctx.strokeStyle = '#111'; ctx.lineWidth = 2.5;
             ctx.beginPath(); ctx.arc(cx - dir * 2, this.y + 16, 17, Math.PI * 0.2, Math.PI * 0.8); ctx.stroke();
 
-            // 3 Sao vàng & 3 Vạch quân hàm Đại tướng
             ctx.strokeStyle = '#ffd700'; ctx.lineWidth = 2.5;
             let chevX = this.facingRight ? cx - 3 : cx + 3;
             for (let v = 0; v < 3; v++) {
@@ -1312,25 +1391,19 @@ Player.prototype.draw = function() {
             return;
         }
 
-        // ==========================================
-        // DẠNG MỚI 3: NƯỚC / THỦY QUÂN LỤC CHIẾN (WATER - ĐÀI HOA SEN TÍM + MŨ CỐI QUÂN ĐỘI)
-        // ==========================================
+        // 3. DẠNG NƯỚC (WATER)
         if (this.mgpeaForm === 'water') {
-            // Sóng nước gợn dưới chân
             ctx.fillStyle = 'rgba(0, 191, 255, 0.4)';
             ctx.beginPath(); ctx.ellipse(cx, this.y + this.height - 2, 22, 6, 0, 0, Math.PI * 2); ctx.fill();
             ctx.strokeStyle = '#00ffff'; ctx.lineWidth = 1.5;
             ctx.beginPath(); ctx.ellipse(cx, this.y + this.height - 2, 26, 7, 0, 0, Math.PI * 2); ctx.stroke();
 
-            // Thân cây xanh uốn cong
             ctx.strokeStyle = '#2e8b57'; ctx.lineWidth = 6; ctx.lineCap = 'round';
             ctx.beginPath(); ctx.moveTo(cx, this.y + this.height - 4); ctx.quadraticCurveTo(cx - dir * 10, cy + 10, cx - dir * 4, this.y + 18); ctx.stroke();
 
-            // Lá xanh bên thân
             ctx.fillStyle = '#32cd32';
             ctx.beginPath(); ctx.ellipse(cx - dir * 8, cy + 12, 8, 4, Math.PI / 4, 0, Math.PI * 2); ctx.fill();
 
-            // Đài hoa sen tím nở rộ chứa cụm 4 đầu bắn
             ctx.fillStyle = '#8a2be2'; ctx.strokeStyle = '#ba55d3'; ctx.lineWidth = 2;
             ctx.beginPath();
             ctx.moveTo(cx - dir * 20, this.y + 2);
@@ -1338,7 +1411,6 @@ Player.prototype.draw = function() {
             ctx.quadraticCurveTo(cx + dir * 18, this.y + 8, cx - dir * 4, this.y + 2);
             ctx.closePath(); ctx.fill(); ctx.stroke();
 
-            // Vẽ cụm các đầu đỗ xanh bên trong đài hoa
             let peaHeads = [
                 { x: cx - dir * 6, y: this.y + 10 },
                 { x: cx + dir * 4, y: this.y + 14 },
@@ -1356,7 +1428,6 @@ Player.prototype.draw = function() {
                 ctx.beginPath(); ctx.arc(ph.x + dir * 2.5, ph.y - 2, 1, 0, Math.PI * 2); ctx.fill();
             }
 
-            // MŨ BẢO HIỂM QUÂN ĐỘI HẢI QUÂN TRÙM LÊN ĐÀI HOA SEN
             ctx.fillStyle = '#102830';
             ctx.beginPath(); ctx.arc(cx - dir * 6, this.y + 2, 18, Math.PI, 0); ctx.fill();
             ctx.fillStyle = '#0a1a20'; ctx.fillRect(cx - dir * 6 - 20, this.y + 1, 40, 3);
@@ -1374,9 +1445,7 @@ Player.prototype.draw = function() {
             return;
         }
 
-        // ==========================================
-        // DẠNG PHÁO ĐẬU (PEA POD / CANNON)
-        // ==========================================
+        // 4. DẠNG PHÁO ĐẬU (PEA POD)
         if (this.mgpeaForm === 'pod') {
             ctx.fillStyle = '#2e8b57';
             ctx.beginPath();
@@ -1457,9 +1526,7 @@ Player.prototype.draw = function() {
             return;
         }
 
-        // ==========================================
-        // DẠNG PHÒNG THỦ (PEANUT / 2 ĐẦU ĐẬU PHỘNG)
-        // ==========================================
+        // 5. DẠNG PHÒNG THỦ (PEANUT)
         if (this.mgpeaForm === 'defense') {
             let isLowHp = (this.hp < this.maxHp * 0.5);
 
@@ -1546,9 +1613,7 @@ Player.prototype.draw = function() {
             return;
         }
 
-        // ==========================================
-        // DẠNG 3 ĐẦU (THREEPEATER)
-        // ==========================================
+        // 6. DẠNG 3 ĐẦU (THREEPEATER)
         if (this.mgpeaForm === 'threepeater') {
             ctx.fillStyle = '#228b22'; ctx.fillRect(cx - 3, cy + 12, 6, this.height / 2 - 12);
             ctx.fillStyle = '#32cd32';
@@ -1609,9 +1674,7 @@ Player.prototype.draw = function() {
             return;
         }
 
-        // ==========================================
-        // DẠNG CỔ ĐẠI (PRIMAL)
-        // ==========================================
+        // 7. DẠNG CỔ ĐẠI (PRIMAL)
         if (this.mgpeaForm === 'primal') {
             ctx.fillStyle = '#228b22'; ctx.fillRect(cx - 3, cy + 5, 6, this.height / 2 - 5);
             ctx.fillStyle = '#32cd32';
@@ -1682,9 +1745,7 @@ Player.prototype.draw = function() {
             return;
         }
 
-        // ==========================================
-        // CÁC DẠNG CÒN LẠI (THƯỜNG / LỬA / BĂNG / ĐIỆN / ĐỘC / NỔ)
-        // ==========================================
+        // 8-12. CÁC DẠNG CÒN LẠI (THƯỜNG / LỬA / BĂNG / ĐIỆN / ĐỘC / NỔ)
         let isFire = (this.mgpeaForm === 'fire');
         let isIce = (this.mgpeaForm === 'ice');
         let isElectric = (this.mgpeaForm === 'electric');
@@ -1812,8 +1873,8 @@ if (typeof HeroData !== 'undefined') {
     HeroData.mgpea = {
         difficulty: 3,
         passive: "NỘI TẠI: GATLING BARRAGE\n- Đánh thường có 5% tỉ lệ kích hoạt xả 60 viên đạn Gatling trong 2.25s theo hình quạt Parabol (ưu tiên bắn thẳng trung tâm).\n- Trong 2.25s này: Khóa di chuyển, miễn nhiễm khống chế và BẤT TỬ 100% sát thương nhận vào.\n- Sau khi kết thúc nội tại, đòn kế tiếp bắn chuỗi 5 viên thay vì 4 viên.",
-        c1: "ĐẠN ĐẬU LỬA (HC: 8s)\n- Cường hóa 3 đòn đánh thường kế tiếp thành đạn đậu lửa (14 sát thương mỗi viên).\n- Bị khóa khi đang ở Dạng Biến Hình.",
+        c1: "ĐẠN ĐẬU LỬA (HC: 8s)\n- Cường hóa 3 đòn đánh thường kế tiếp thành đạn đậu lửa (14 sát thương mỗi viên).\n- Bị khóa khi đang ở Dạng Biến Hình hoặc chọn Cố định Dạng.",
         c2: "NẠP ĐẠN TỐI ĐA (HC: 10s)\n- Kích hoạt 100% tỉ lệ nổ Nội Tại Gatling cho đòn đánh thường kế tiếp.",
-        c3: "CHUYỂN DẠNG NGUYÊN TỐ (HC: 10s sau khi hết dạng)\n- Ngẫu nhiên biến thành 1 trong 12 dạng tối thượng trong 10 giây:\n  ✂️ KÉO CẮT (ONG GAI): Bắn 4 con ong lao cực nhanh (10 DMG, choáng 0.15s). NỘI TẠI: Bão 60 con ong gai tốc độ siêu thanh gây CHOÁNG 1.5S!\n  ☀️ MẶT TRỜI: Bắn đạn quang năng (6 DMG + Hồi 1 HP). 10% ra Tia Laze Mặt Trời xuyên hàng (14 DMG + Hồi 6 HP). NỘI TẠI: Bắn 60 viên đỗ mặt trời, 15% từng viên hóa thành Tia Laze!\n  🌊 NƯỚC: Bắn chùm 12 viên đạn nước 3 hướng (4 thẳng, 4 lệch +15°, 4 lệch -15°) gây 12 DMG/viên. NỘI TẠI: Xả cơn mưa 60 viên đạn nước quét 3 hướng (lệch tối đa ±15° mỗi hướng)!\n  🔥 LỬA: Đạn lửa (14 ST), 15% ra Đạn Lửa Xanh (21 ST).\n  ❄️ BĂNG: Đạn băng (7 ST) làm chậm 50% chạy & đánh trong 5s. 5% bắn Tảng Băng CHOÁNG 5S!\n  ⚡ ĐIỆN: Đạn bay chậm, giật sét 5 ST mỗi 0.2s trong 175px.\n  ☠️ ĐỘC: 5 ST, phá giáp Shield, tích lũy độc (+2 ST/tầng) & thiêu đốt độc 2 ST/s trong 5s.\n  🛡️ PHÒNG THỦ: Nhận lượng Shield bằng đúng HP hiện tại. Tốc đánh 0.6s (>= 50% HP) hoặc 1.2s (< 50% HP). Bắn luân phiên 4 viên mỗi đầu. NỘI TẠI: Thả 6 quả Wall-nut khổng lồ (200px) lăn chậm, xóa đạn địch và gây 5 ST/3 frame khi chạm phải!\n  🦖 CỔ ĐẠI: Bắn đạn đậu khổng lồ 15 ST và gây Choáng 0.25s!\n  👥 3 ĐẦU: Đòn thường bắn toả 12 viên (5 ST) tập trung tâm ±5°. Nội tại xả bão đạn 180 viên trên cả 3 đầu!\n  💣 NỔ: Tốc đánh chậm 1.5s, bắn đạn bom nổ tung gây 40 ST/viên!\n  🫛 PHÁO ĐẬU (PEA POD): Tốc đánh chậm 1.5s. Bắn 20 viên đậu khổng lồ lên trời rơi dần trong 1.5s (ưu tiên quanh trục X của địch 250px). 33% tỉ lệ va chạm Platform, nổ lan 100px gây 10 ST (rơi trúng đầu địch gây 40 ST!). NỘI TẠI: Xả 3 đợt đại bác liên tiếp lên trời dội bão 120 viên đậu mưa xuống!"
+        c3: "CHUYỂN DẠNG NGUYÊN TỐ (HC: 10s sau khi hết dạng)\n- Ngẫu nhiên biến thành 1 trong 12 dạng tối thượng trong 10 giây (Bị khóa khi chọn Cố định Dạng):\n  ✂️ KÉO CẮT (ONG GAI): Bắn 4 con ong lao cực nhanh (10 DMG, choáng 0.15s). NỘI TẠI: Bão 60 con ong gai tốc độ siêu thanh gây CHOÁNG 1.5S!\n  ☀️ MẶT TRỜI: Bắn đạn quang năng (6 DMG + Hồi 1 HP). 10% ra Tia Laze Mặt Trời xuyên hàng (14 DMG + Hồi 6 HP). NỘI TẠI: Bắn 60 viên đỗ mặt trời, 15% từng viên hóa thành Tia Laze!\n  🌊 NƯỚC: Bắn chùm 12 viên đạn nước 3 hướng (4 thẳng, 4 lệch +15°, 4 lệch -15°) gây 12 DMG/viên. NỘI TẠI: Xả cơn mưa 60 viên đạn nước quét 3 hướng (lệch tối đa ±15° mỗi hướng)!\n  🔥 LỬA: Đạn lửa (14 ST), 15% ra Đạn Lửa Xanh (21 ST).\n  ❄️ BĂNG: Đạn băng (7 ST) làm chậm 50% chạy & đánh trong 5s. 5% bắn Tảng Băng CHOÁNG 5S!\n  ⚡ ĐIỆN: Đạn bay chậm, giật sét 5 ST mỗi 0.2s trong 175px.\n  ☠️ ĐỘC: 5 ST, phá giáp Shield, tích lũy độc (+2 ST/tầng) & thiêu đốt độc 2 ST/s trong 5s.\n  🛡️ PHÒNG THỦ: Nhận lượng Shield bằng đúng HP hiện tại. Tốc đánh 0.6s (>= 50% HP) hoặc 1.2s (< 50% HP). Bắn luân phiên 4 viên mỗi đầu. NỘI TẠI: Thả 6 quả Wall-nut khổng lồ (200px) lăn chậm, xóa đạn địch và gây 5 ST/3 frame khi chạm phải!\n  🦖 CỔ ĐẠI: Bắn đạn đậu khổng lồ 15 ST và gây Choáng 0.25s!\n  👥 3 ĐẦU: Đòn thường bắn toả 12 viên (5 ST) tập trung tâm ±5°. Nội tại xả bão đạn 180 viên trên cả 3 đầu!\n  💣 NỔ: Tốc đánh chậm 1.5s, bắn đạn bom nổ tung gây 40 ST/viên!\n  🫛 PHÁO ĐẬU (PEA POD): Tốc đánh chậm 1.5s. Bắn 20 viên đậu khổng lồ lên trời rơi dần trong 1.5s (ưu tiên quanh trục X của địch 250px). 33% tỉ lệ va chạm Platform, nổ lan 100px gây 10 ST (rơi trúng đầu địch gây 40 ST!). NỘI TẠI: Xả 3 đợt đại bác liên tiếp lên trời dội bão 120 viên đậu mưa xuống!"
     };
 }
