@@ -1,5 +1,5 @@
 /* ===================================================
-   CHẾ ĐỘ CHƠI: PHÙ HIỆU (RUNE SYSTEM) - ĐÃ CẬP NHẬT
+   CHẾ ĐỘ CHƠI: PHÙ HIỆU (RUNE SYSTEM) - CẬP NHẬT MỚI
    =================================================== */
 
 // --- DANH SÁCH THẺ PHÙ HIỆU ---
@@ -17,19 +17,23 @@ const RUNES_BASIC = [
     { id: 'apche', name: 'Áp Chế', tier: 0, desc: 'Gây dame làm choáng', text: 'Gây dame có 5% tỷ lệ làm choáng đối thủ 0.7s' },
     { id: 'hedieuhanhwindows', name: 'Hệ Điều Hành Windows', tier: 0, desc: 'Gây dame có tỉ lệ dịch chuyển', text: 'Gây dame/ nhận dame có 5% cả 2 được teleport đến 1 vị trí random trong map (trên mặt đất hoặc cấu trúc)' },
     { id: 'songdaithanhhuyenthoai', name: 'Sống Dai Thành Huyền Thoại', tier: 0, desc: 'Giữ mạng giữ sức mạnh', text: 'Nếu giữ nguyên số totem tại thời điểm chọn, bản thân luôn được x2 lượng dame và giảm 25% dame nhận vào' },
-    { id: 'doicanhtudo', name: 'Đôi Cánh Tự Do', tier: 0, desc: 'miễn st rơi, nhảy cao', text: 'Miễn sát thương rơi và nhận thêm 1 lần nhảy tối đa (double jump thành triple jump, có sẵn triple thành 4 lần). Vẽ đôi cánh vẫy vẫy sau lưng.' },
+    { id: 'doicanhtudo', name: 'Đôi Cánh Tự Do', tier: 0, desc: 'miễn st rơi, nhảy cao', text: 'Miễn sát thương rơi và nhận thêm 1 lần nhảy tối đa. Vẽ đôi cánh vẫy vẫy sau lưng.' },
     { id: 'trinhsatdoan', name: 'Trinh Sát Đoàn', tier: 0, desc: 'gây dame triệu hồi levi', text: 'Gây dame lập tức dùng chiêu 2 của Levi tại vị trí bản thân (hồi chiêu 5s).' },
     { id: 'vongtronmaphap', name: 'Vòng Tròn Ma Pháp', tier: 0, desc: 'tạo bẫy ma pháp định kỳ', text: 'Mỗi 5s sẽ kích hoạt chiêu 1 (tạo bẫy) của Everett ngay tại vị trí địch.' },
-    
-    // --- PHÙ HIỆU SƠ CẤP MỚI ---
     { id: 'banchanloxo', name: 'Bàn Chân Lò Xo', tier: 0, desc: 'Nhảy tự nảy, tăng vĩnh viễn sát thương', text: 'Khi nhảy sẽ tự động nảy thêm 1 lần nữa trên không. Mỗi lần nhảy kích hoạt lò xo giúp tăng vĩnh viễn 0.25% sát thương.' },
-    { id: 'meodenmayman', name: 'Mèo Đen May Mắn', tier: 0, desc: '25% x4.5 dame, 75% 0 dame', text: 'Đòn đánh may rủi: có 25% tỷ lệ gây x4.5 sát thương (hiển thị vàng), 75% tỷ lệ không gây sát thương (0 dame xám). Vẽ mắt mèo trên đầu.' },
-    { id: 'tuikhi', name: 'Túi Khí', tier: 0, desc: 'Lướt tạo lá chắn', text: 'Mỗi khi dùng Dash nhận ngay lớp giáp ảo (bhshield) bằng 15% HP tối đa. Vẽ hiệu ứng lá chắn mờ xung quanh.' },
-    { id: 'amsat', name: 'Ám Sát', tier: 0, desc: 'Gây thêm sát thương sau lưng', text: 'Đòn đánh trúng từ phía sau lưng địch gây thêm 100% sát thương (gấp đôi dame).' },
-    { id: 'vochuoi', name: 'Vỏ Chuối', tier: 0, desc: 'Tạo vỏ chuối mỗi 2.5s', text: 'Mỗi 2.5s di chuyển thả 1 vỏ chuối (tối đa 10 vỏ). Địch giẫm phải tăng 100% tốc chạy trong 0.15s rồi bị choáng 2s (kèm hiệu ứng xoay tròn).' },
+    { id: 'meodenmayman', name: 'Mèo Đen May Mắn', tier: 0, desc: '25% x4.5 dame, 75% 0 dame', text: 'Đòn đánh may rủi: có 25% tỷ lệ gây x4.5 sát thương, 75% tỷ lệ không gây sát thương. Vẽ mắt mèo trên đầu.' },
+    { id: 'tuikhi', name: 'Túi Khí', tier: 0, desc: 'Lướt tạo lá chắn', text: 'Mỗi khi lướt/dịch chuyển nhận ngay lớp giáp ảo (bhshield) bằng 15% HP tối đa.' },
+    { id: 'amsat', name: 'Ám Sát', tier: 0, desc: 'Gây thêm sát thương sau lưng', text: 'Đòn đánh trúng từ phía sau lưng địch gây thêm 100% sát thương.' },
+    { id: 'vochuoi', name: 'Vỏ Chuối', tier: 0, desc: 'Tạo vỏ chuối mỗi 2.5s', text: 'Mỗi 2.5s di chuyển thả 1 vỏ chuối. Địch giẫm phải tăng 100% tốc chạy trong 0.15s rồi bị choáng 2s.' },
     { id: 'muoi', name: 'Muỗi', tier: 0, desc: 'Triệu hồi muỗi hút máu', text: 'Triệu hồi 5 con muỗi bay lượn. Mỗi 3-7s muỗi lao tới cắn địch gây 2 dame rồi bay về hồi 2 HP cho chủ nhân.' },
-    { id: 'khantrumthoigian', name: 'Khăn Trùm Thời Gian', tier: 0, desc: 'Quay ngược trạng thái về 4s trước', text: 'Lưu trạng thái HP, totem và hồi chiêu; sau 4s quay ngược bản thân về trạng thái đó (lặp lại mỗi 10s). Hiển thị khăn trùm thời gian khi kích hoạt.' },
-    { id: 'denpinthunho', name: 'Đèn Pin Thu Nhỏ', tier: 0, desc: 'Thu nhỏ tăng dame lên địch', text: 'Chiếu đèn pin thu nhỏ địch còn 50% kích thước và tăng 75% sát thương nhận vào của địch trong 60s.' }
+    { id: 'khantrumthoigian', name: 'Khăn Trùm Thời Gian', tier: 0, desc: 'Quay ngược trạng thái về 4s trước', text: 'Lưu trạng thái HP, totem và hồi chiêu; sau 4s quay ngược bản thân về trạng thái đó (lặp lại mỗi 10s).' },
+    { id: 'denpinthunho', name: 'Đèn Pin Thu Nhỏ', tier: 0, desc: 'Thu nhỏ tăng dame lên địch', text: 'Chiếu đèn pin thu nhỏ địch còn 50% kích thước và tăng 75% sát thương nhận vào của địch trong 60s.' },
+
+    // --- CÁC PHÙ HIỆU SƠ CẤP MỚI ĐƯỢC BỔ SUNG ---
+    { id: 'daccachamduong', name: 'Đặc Cách Âm Dương', tier: 0, desc: 'Luân chuyển sức mạnh và yếu đuối mỗi 2.5s', text: 'Có đồng xu bay bám theo sau. Mỗi 2.5s chuyển đổi giữa trạng thái Dương (màu vàng: tăng x2.5 sát thương gây ra) và Âm (màu tím: không thể gây sát thương và nhận thêm 50% sát thương).' },
+    { id: 'famicanxi', name: 'Fami Canxi', tier: 0, desc: 'Tăng lượng máu tối đa, tự mất máu dần dần', text: 'HP tối đa lập tức tăng lên 500%. Tuy nhiên mỗi 1s tự mất lượng máu bằng 5% HP tối đa cho đến khi còn bằng 25% HP ban đầu. Khi mất totem sẽ hồi đầy lại và tiếp tục chu kỳ.' },
+    { id: 'kibangha', name: 'Kỉ Băng Hà', tier: 0, desc: 'Kéo dài thời gian hiệu ứng bất lợi', text: 'Mọi hiệu ứng khống chế hoặc bất lợi (debuff) đặt lên đối thủ sẽ được gia tăng thêm 50% thời gian hiệu lực.' },
+    { id: 'tamngam', name: 'Tầm Ngắm', tier: 0, desc: 'Tăng mạnh tỉ lệ chí mạng đòn đánh', text: 'Mỗi đòn đánh thường có 30% cơ hội phát động chí mạng, nhân đôi lượng sát thương gây ra.' }
 ];
 
 const RUNES_INTERMEDIATE = [
@@ -44,19 +48,24 @@ const RUNES_INTERMEDIATE = [
     { id: 'thanhca', name: 'Thánh Ca', tier: 1, desc: 'Hồi phục khi chịu đòn', text: 'Nhận 5 lần sát thương (trừ sát thương rơi) giúp hồi 5% HP' },
     { id: 'huthuctu', name: 'Hư Thức Tử', tier: 1, desc: 'Gây choáng bắn hư thức tử', text: 'Sau khi làm choáng địch, xuất hiện Gojo ảo vận chiêu bắn Hollow Purple thật về phía địch' },
     { id: 'skibidi', name: 'Skibidi', tier: 1, desc: 'Triệu hồi skibidi tấn công địch', text: 'Triệu hồi 1 skibidi toilet lazer trong map bay quanh, khi phát hiện địch trong 500px lập tức chiếu lazer gây 2 dame mỗi 0.2s' },
-    { id: 'ancuctrau', name: 'Ăn Cức Trâu Sống Lâu Bất Tử', tier: 1, desc: 'ăn cức trâu hồi phục tăng giáp', text: 'Mỗi 5s spawn 1 cục cức trâu (mất sau 10s ko nhặt). Nhặt giúp hồi 7% HP và nhận hiệu ứng shield 20% trong 5s (tạo lá chắn mờ nhiễu).' },
-    { id: 'bommu', name: 'Bom Mù', tier: 1, desc: 'gây dame mù cả 2', text: 'Gây dame làm phát sáng toàn map (tạo 1 lớp trắng phủ mượt lên) trong 2.5s (hồi chiêu 7s).' },
-    { id: 'antonoidon', name: 'Ăn To Nói Lớn', tier: 1, desc: 'hét vô mic gây dame và hồi phục', text: 'Nói vào mic đủ lớn lập tức hồi 1 HP và tạo 1 làn sóng tỏa 500px gây 2-4 dame (gần) hoặc 1 dame (xa) - hồi chiêu 0.15s.' },
+    { id: 'ancuctrau', name: 'Ăn Cức Trâu Sống Lâu Bất Tử', tier: 1, desc: 'ăn cức trâu hồi phục tăng giáp', text: 'Mỗi 5s spawn 1 cục cức trâu. Nhặt giúp hồi 7% HP và nhận hiệu ứng shield 20% trong 5s.' },
+    { id: 'bommu', name: 'Bom Mù', tier: 1, desc: 'gây dame mù cả 2', text: 'Gây dame làm phát sáng toàn map trong 2.5s (hồi chiêu 7s).' },
+    { id: 'antonoidon', name: 'Ăn To Nói Lớn', tier: 1, desc: 'hét vô mic gây dame và hồi phục', text: 'Nói vào mic đủ lớn lập tức hồi 1 HP và tạo 1 làn sóng tỏa 500px gây 2-4 dame hoặc 1 dame (hồi chiêu 0.15s).' },
     { id: 'thephachtitan', name: 'Thể Phách Titan', tier: 1, desc: 'tăng hitbox tăng sức mạnh', text: 'Hitbox và hình dáng bản thân phóng to gấp 7 lần, hitbox đạn to gấp 3 lần và x3 sát thương.' },
     { id: 'bongma', name: 'Bóng Ma', tier: 1, desc: 'tạo bóng giựt bóng', text: 'Khi nhận sẽ tạo 1 bóng đen tại vị trí hiện tại, Dash giảm còn 0.5s hồi. Khi kích hoạt Dash lập tức đổi vị trí bóng và bản thân.' },
-
-    // --- PHÙ HIỆU TRUNG CẤP MỚI ---
-    { id: 'xeomcongnghe', name: 'Xe Ôm Công Nghệ', tier: 1, desc: 'Di chuyển tạo khói độc', text: 'Mỗi khi di chuyển 75px sẽ để lại 1 làn khói tồn tại 5s (bán kính 50px). Địch đứng trong khói nhận 1 dame mỗi 0.2s (đứng nhiều vùng nhận sát thương cộng dồn).' },
+    { id: 'xeomcongnghe', name: 'Xe Ôm Công Nghệ', tier: 1, desc: 'Di chuyển tạo khói độc', text: 'Mỗi khi di chuyển 75px sẽ để lại 1 làn khói tồn tại 5s (bán kính 50px). Địch đứng trong khói nhận 1 dame mỗi 0.2s.' },
     { id: 'hiente', name: 'Hiến Tế', tier: 1, desc: 'Mất totem tạo vụ nổ 650 dame', text: 'Khi mất totem tạo 1 vùng cảnh báo 360px làm chậm địch 95% và khóa Dash. Sau 5s phát nổ hủy diệt gây 650 dame trong phạm vi.' },
     { id: 'hoandoi', name: 'Hoán Đổi', tier: 1, desc: 'Đổi tướng giữa 2 người chơi', text: 'Hoán đổi hoàn toàn nhân vật của Player 1 và Player 2 cho nhau ngay khi nhặt, giữ nguyên HP và số Totem.' },
     { id: 'tranhdon', name: 'Tránh Dồn', tier: 1, desc: 'Chỉ nhận tối đa 50 dame mỗi giây', text: 'Mỗi 1s chỉ nhận tối đa 50 sát thương. Sát thương vượt quá ngưỡng sẽ bị triệt tiêu hoàn toàn.' },
     { id: 'tamkhienkienco', name: 'Tấm Khiên Kiên Cố', tier: 1, desc: 'Mỗi đòn nhận tối đa 40 dame', text: 'Mỗi lần nhận sát thương chỉ nhận tối đa 40 dame. Đòn đánh lớn hơn sẽ tự động giảm về 40.' },
-    { id: 'vohahan', name: 'Vô Hạ Hạn', tier: 1, desc: 'Lá chắn đẩy lùi đạn và kẻ địch', text: 'Bật lá chắn bảo vệ trong 5s, hồi lại sau 5s (chu kỳ liên tục). Khi bật, mọi đạn và kẻ địch chạm vào đều bị dính và đẩy dạt ra rìa lá chắn theo trục X.' }
+    { id: 'vohahan', name: 'Vô Hạ Hạn', tier: 1, desc: 'Lá chắn đẩy lùi đạn và kẻ địch', text: 'Bật lá chắn bảo vệ trong 5s, hồi lại sau 5s liên tục. Mọi đạn và kẻ địch chạm vào đều bị dính và đẩy dạt ra rìa lá chắn theo trục X.' },
+
+    // --- CÁC PHÙ HIỆU TRUNG CẤP MỚI ĐƯỢC BỔ SUNG ---
+    { id: 'buocda', name: 'Bước Đà', tier: 1, desc: 'Lướt nhận miễn khống và giảm sát thương', text: 'Mỗi khi lướt (Dash hoặc chiêu lướt) nhận ngay trạng thái miễn khống (Ironbody) trong 1s và giảm 50% sát thương của đòn đánh đầu tiên nhận phải.' },
+    { id: 'xegio', name: 'Xé Gió', tier: 1, desc: 'Lướt cường hóa đòn đánh làm choáng xuyên miễn khống', text: 'Sau khi lướt, đòn đánh kế tiếp cộng thêm 7 sát thương và gây choáng đặc biệt 0.5s. Kẻ địch có Ironbody không thể miễn nhiễm mà chỉ giảm thời gian choáng còn 50%.' },
+    { id: 'tiachop', name: 'Tia Chớp', tier: 1, desc: 'Lướt tạo đường điện giật và làm chậm', text: 'Khi lướt gây 5 sát thương trực tiếp lên lộ trình di chuyển, đồng thời để lại vệt sấm sét. Địch dẫm vào nhận 2 sát thương/giây và bị làm chậm 50%.' },
+    { id: 'congthutoandien', name: 'Công Thủ Toàn Diện', tier: 1, desc: 'Nhận sát thương tăng công, gây sát thương tích giáp ảo', text: 'Có khiên lục giác đỏ bao bọc. Khi chịu X sát thương, đòn đánh kế tiếp tăng thêm (X/2)% sát thương. Đồng thời, lượng sát thương gây ra tạo ra lớp giáp ảo bằng 12% lượng dame đó, duy trì trong 7s.' },
+    { id: 'conglanh', name: 'Cóng Lạnh', tier: 1, desc: 'Gia tăng sát thương lên kẻ địch bị khống chế', text: 'Gia tăng 60% sát thương lên bất kỳ kẻ địch nào đang trong trạng thái bị choáng (stun).' }
 ];
 
 const RUNES_ADVANCED = [
@@ -69,17 +78,21 @@ const RUNES_ADVANCED = [
     { id: 'kimjongun', name: 'Kim Jong Un Cậu Bé Bút Chì', tier: 2, desc: 'Thả 3 quả bom mỗi 0.25s', text: 'Mỗi 0.25s thả 3 quả pháo từ trên trời ngẫu nhiên (65% xuyên platform, trúng nổ gây 30 dame)' },
     { id: 'lienbaokich', name: 'Liên Bạo Kích', tier: 2, desc: 'Bão đạn năng lượng liên tục', text: 'Mỗi 1s bắn đạn 3 lần mỗi lần 20 đạn năng lượng về các hướng random gây 2-4dame/ đạn' },
     { id: 'tungtungsahur', name: 'Tung Tung Tung Sahur', tier: 2, desc: 'Hóa Tung Tung Tung Sahur (2 mạng)', text: 'Hóa thân thành Tung Tung Tung Sahur cầm gậy bóng chày với bộ kỹ năng tầm xa vô hạn và 2 mạng riêng. Khi mất hết 2 mạng sẽ lưu lại HP cũ, hất văng địch và trở lại bình thường.' },
-    { id: 'daonguocthoigian', name: 'Đảo Ngược Thời Gian', tier: 2, desc: 'hồi 3 totem làm lại từ đầu', text: 'Hồi lại tối đa 3 totem (không vượt 7/7) của cả 2 và xóa toàn bộ phù hiệu của cả 2 để nhặt lại từ đầu.' },
-    { id: 'chammachac', name: 'Chậm Mà Chắc', tier: 2, desc: 'sau 15s có thể onehit địch', text: 'Sau 15s không dùng chiêu hay đánh thường (có thể Dash), đòn đánh kế tiếp gây dame bằng toàn bộ lượng HP + Giáp ảo còn lại của địch.' },
+    { id: 'daonguocthoigian', name: 'Đảo Ngược Thời Gian', tier: 2, desc: 'hồi 3 totem làm lại từ đầu', text: 'Hồi lại tối đa 3 totem của cả 2 và xóa toàn bộ phù hiệu của cả 2 để nhặt lại từ đầu.' },
+    { id: 'chammachac', name: 'Chậm Mà Chắc', tier: 2, desc: 'sau 15s có thể onehit địch', text: 'Sau 15s không dùng chiêu hay đánh thường, đòn đánh kế tiếp gây dame bằng toàn bộ lượng HP + Giáp ảo còn lại của địch.' },
     { id: 'maphaplienhoi', name: 'Ma Pháp Liên Hồi', tier: 2, desc: 'bật 0s hồi chiêu định kỳ', text: 'Bật trạng thái 0s hồi chiêu (toàn bộ chiêu thành 0.15s hồi) trong 5s, kết thúc chờ 10s sau sẽ lặp lại.' },
-    { id: 'thukhoaa00', name: 'Thủ Khoa A00', tier: 2, desc: 'giải toán 6s bắn đáp án', text: 'Xuất hiện [Số 1] [Phép tính] [Số 2] trên đầu. Mỗi 2s điền 1 ô (6s xong), 1s sau ra kết quả, 1s sau bắn đáp án về phía địch gây sát thương bằng kết quả đó (làm tròn lên).' },
-
-    // --- PHÙ HIỆU CAO CẤP MỚI ---
+    { id: 'thukhoaa00', name: 'Thủ Khoa A00', tier: 2, desc: 'giải toán 6s bắn đáp án', text: 'Xuất hiện [Số 1] [Phép tính] [Số 2] trên đầu. Mỗi 2s điền 1 ô, sau đó bắn đáp án về phía địch gây sát thương bằng kết quả đó.' },
     { id: 'hoden', name: 'Hố Đen', tier: 2, desc: 'Gây dame tạo hố đen hút địch', text: 'Mỗi khi gây sát thương tạo 1 hố đen hút đối thủ nhẹ theo cả 2 trục tồn tại trong 3.5s (hồi chiêu 0.25s).' },
     { id: 'luabo', name: 'Lùa Bò', tier: 2, desc: 'Triệu hồi bò húc mỗi 2.5s', text: 'Mỗi 2.5s triệu hồi 1 con bò sừng chạy qua màn hình. Bò có thể nhảy khi gặp địch, húc trúng gây 20 dame, hất tung và gây choáng 2.5s.' },
-    { id: 'tienlen', name: 'Tiến Lên', tier: 2, desc: 'Tích tụ tốc độ húc cực mạnh', text: 'Sau khi Dash, khóa chiêu và đứng yên trong 5s để tích lũy. Sau 5s tăng tốc độ di chuyển (+5%/giây), giảm 75% sát thương nhận vào, tích tầng mỗi 0.33s. Đâm trúng địch gây (tầng/4)^2 - 1 sát thương.' },
+    { id: 'tienlen', name: 'Tiến Lên', tier: 2, desc: 'Tích tụ tốc độ húc cực mạnh', text: 'Sau khi lướt, đứng yên 5s tích lũy. Sau đó tăng tốc liên tục (+5%/s), giảm 75% sát thương nhận vào, tích tầng mỗi 0.33s. Đâm trúng địch gây (tầng/4)^2 - 1 sát thương.' },
     { id: 'daibackhongkhi', name: 'Đại Bác Không Khí', tier: 2, desc: 'Bắn đại bác không khí sau đánh thường', text: 'Mỗi đòn đánh thường sẽ tự động kích hoạt thêm 1 phát đạn Đại Bác Không Khí của Doraemon sau 0.2s.' },
-    { id: 'macham', name: 'Ma Chảm', tier: 2, desc: 'Đánh thường kèm 1 đòn phụ', text: 'Mỗi khi đánh thường sẽ tự động đánh thêm 1 đòn đánh thường nữa của bản thân sau 0.2s gây 50% sát thương.' }
+    { id: 'macham', name: 'Ma Chảm', tier: 2, desc: 'Đánh thường kèm 1 đòn phụ', text: 'Mỗi khi đánh thường sẽ tự động đánh thêm 1 đòn đánh thường nữa của bản thân sau 0.2s gây 50% sát thương.' },
+
+    // --- CÁC PHÙ HIỆU CAO CẤP MỚI ĐƯỢC BỔ SUNG ---
+    { id: 'nhanhnhuchop', name: 'Nhanh Như Chớp', tier: 2, desc: 'Giảm tối đa hồi chiêu lướt', text: 'Thời gian hồi chiêu của động tác Lướt (Dash) giảm mạnh chỉ còn 0.15s, cho phép lướt liên tục cơ động.' },
+    { id: 'doccocaubai', name: 'Độc Cô Cầu Bại', tier: 2, desc: 'Hiến tế còn 1 HP và 1 mạng để đạt sức mạnh tối thượng', text: 'Lập tức chỉ còn đúng 1 HP và 1 totem. Đổi lại: +50% tốc độ chạy, +100% tốc độ đánh, hồi phục 200% lượng sát thương gây ra và 5% tỉ lệ bộc phát thêm 5 sát thương kèm luồng aura huyền bí (Tím - Đỏ - Trắng).' },
+    { id: 'trietdediencuong', name: 'Triệt Để Điên Cuồng', tier: 2, desc: 'Câm lặng vĩnh viễn đổi lấy cuồng bạo', text: 'Bản thân bao bọc trong ngọn lửa đỏ. Bị câm lặng hoàn toàn (kỹ năng khóa ở 10s không hồi). Đổi lại: +200% tốc độ đánh, +100% tốc độ di chuyển và mỗi đòn đánh trúng sẽ kích hoạt đạn lửa đỏ đuổi mục tiêu gây 20% sát thương (hồi 2s).' },
+    { id: 'muaten', name: 'Mưa Tên', tier: 2, desc: 'Đòn đánh thường nhân bản thêm phát bắn phụ', text: 'Mỗi đòn đánh thường trúng đích sẽ lập tức kích hoạt thêm 1 phát bắn phụ mang toàn bộ thuộc tính và hiệu ứng của đòn đánh thường gốc, kèm theo 50% cơ hội tăng gấp đôi sát thương.' }
 ];
 
 // Cache ảnh nền phù hiệu
@@ -93,7 +106,7 @@ function getRuneImage(id) {
     return runeImageCache[id];
 }
 
-// --- BIẾN QUẢN LÝ HỆ THỐNG ---
+// --- BIẾN QUẢN LÝ HỆ THỐNG PHÙ HIỆU ---
 let phuHieuState = {
     items: [],
     projectiles: [],
@@ -104,6 +117,7 @@ let phuHieuState = {
     blackHoles: [],
     bulls: [],
     mosquitoes: [],
+    lightningTrails: [], // Vệt điện của phù hiệu Tia Chớp
     flashWhiteTimer: 0,
     spawnTimer: 0,
     active: false
@@ -142,7 +156,9 @@ function getMicVolume() {
     return sum / micDataArray.length;
 }
 
-// --- KHỞI TẠO CHẾ ĐỘ ---
+// ==========================================
+// HÀM KHỞI TẠO CHẾ ĐỘ PHÙ HIỆU
+// ==========================================
 function initPhuHieuMode() {
     phuHieuState.active = true;
     phuHieuState.items = [];
@@ -154,6 +170,7 @@ function initPhuHieuMode() {
     phuHieuState.blackHoles = [];
     phuHieuState.bulls = [];
     phuHieuState.mosquitoes = [];
+    phuHieuState.lightningTrails = [];
     phuHieuState.flashWhiteTimer = 0;
     phuHieuState.spawnTimer = 0;
 
@@ -205,7 +222,7 @@ function initPhuHieuMode() {
         player.tungTungSavedHp = null;
         player.tungTungWalkFrame = 0;
 
-        // BIẾN CHO CÁC PHÙ HIỆU MỚI
+        // CÁC BIẾN CHO PHÙ HIỆU CŨ
         player.banChanLoXoBonus = 0;
         player.isAutoSpringJumping = false;
         player.voChuoiTimer = 0;
@@ -225,61 +242,157 @@ function initPhuHieuMode() {
         player.tienLenStacks = 0;
         player.tienLenTimer = 0;
 
-        // --- HOOK NHẬN SÁT THƯƠNG ---
+        // --- KHỞI TẠO CÁC BIẾN CHO 12 PHÙ HIỆU MỚI ---
+        // 1. Đặc Cách Âm Dương
+        player.amDuongTimer = 0;
+        player.amDuongState = 'duong'; // 'duong' (vàng) hoặc 'am' (tím)
+        player.amDuongCoin = { x: player.x, y: player.y, vx: 0, vy: 0 };
+
+        // 2. Fami Canxi
+        player.famiCanxiApplied = false;
+        player.famiCanxiOriginalHp = player.maxHp;
+        player.famiCanxiLossTimer = 0;
+
+        // 3. Bước Đà
+        player.buocDaShieldActive = false;
+
+        // 4. Xé Gió
+        player.xeGioEmpowered = false;
+
+        // 5. Công Thủ Toàn Diện
+        player.congThuDamageAccum = 0;
+        player.congThuNextAtkBonus = 0;
+        player.congThuShieldTimer = 0;
+
+        // 6. Triệt Để Điên Cuồng
+        player.trietDeShootCd = 0;
+
+        // 7. Nhận diện trạng thái Dash tổng quát
+        player.wasGeneralDashing = false;
+        player.prevX = player.x;
+        player.prevY = player.y;
+
+        // ===================================================
+        // HOOK TAKE DAMAGE CỦA PLAYER
+        // ===================================================
         const origTakeDamage = player.takeDamage;
         player.takeDamage = function (amount, damageType) {
             let enemy = (this === player1) ? player2 : player1;
             let finalDmg = amount;
 
-            // 1. MÈO ĐEN MAY MẮN (RNG SÁT THƯƠNG)
+            // ĐẶC CÁCH ÂM DƯƠNG: Nếu đang ở dạng Âm thì không thể gây sát thương
+            if (enemy.runes && enemy.runes[0] && enemy.runes[0].id === 'daccachamduong') {
+                if (enemy.amDuongState === 'am') {
+                    return; 
+                } else if (enemy.amDuongState === 'duong') {
+                    finalDmg *= 2.5; // Dạng Dương: x2.5 sát thương
+                }
+            }
+            // ĐẶC CÁCH ÂM DƯƠNG: Bản thân chịu thêm 50% sát thương khi ở dạng Âm
+            if (this.runes && this.runes[0] && this.runes[0].id === 'daccachamduong') {
+                if (this.amDuongState === 'am') {
+                    finalDmg *= 1.5;
+                }
+            }
+
+            // TẦM NGẮM: Đòn đánh thường có 30% chí mạng (x2 sát thương)
+            if (enemy.runes && enemy.runes[0] && enemy.runes[0].id === 'tamngam') {
+                if (damageType === 'basic' && Math.random() < 0.30) {
+                    finalDmg *= 2.0;
+                }
+            }
+
+            // CÓNG LẠNH: Tăng 60% sát thương lên kẻ địch bị choáng
+            if (enemy.runes && ((enemy.runes[1] && enemy.runes[1].id === 'conglanh') || (enemy.runes[2] && enemy.runes[2].id === 'conglanh'))) {
+                if (this.hasStatus('stuncc')) {
+                    finalDmg *= 1.60;
+                }
+            }
+
+            // CÔNG THỦ TOÀN DIỆN (PHÍA TẤN CÔNG): Tăng dame từ đòn đánh kế tiếp
+            if (enemy.runes && ((enemy.runes[1] && enemy.runes[1].id === 'congthutoandien') || (enemy.runes[2] && enemy.runes[2].id === 'congthutoandien'))) {
+                if (enemy.congThuNextAtkBonus > 0) {
+                    finalDmg *= (1 + enemy.congThuNextAtkBonus / 100);
+                    enemy.congThuNextAtkBonus = 0; // Đã giải phóng xong
+                }
+                // Nhận giáp ảo bằng 12% sát thương gây ra
+                let gainedShield = Math.floor(finalDmg * 0.12);
+                if (gainedShield > 0) {
+                    enemy.tempShield = (enemy.tempShield || 0) + gainedShield;
+                    enemy.addStatus('hshield', 'buff', 'assets/icon/buff/hshield.png', 420, enemy.tempShield, 60);
+                    enemy.congThuShieldTimer = 420; // Duy trì 7s
+                }
+            }
+
+            // XÉ GIÓ: Thêm 7 sát thương và choáng 0.5s (bỏ qua xóa của Ironbody)
+            if (enemy.xeGioEmpowered) {
+                finalDmg += 7;
+                enemy.xeGioEmpowered = false;
+                
+                let stunDuration = 30; // 0.5s = 30 frames
+                if (this.hasStatus('ironbody')) {
+                    stunDuration = 15; // Ironbody giảm 50% thời gian choáng
+                }
+                // Ép thêm hiệu ứng choáng đặc biệt
+                this.statusList = this.statusList.filter(s => s.id !== 'stuncc');
+                this.statusList.push({
+                    id: 'stuncc', type: 'debuff', icon: 'assets/icon/debuff/stuncc.png',
+                    timer: stunDuration, maxTimer: stunDuration,
+                    value: 0, tickRate: 60, currentTick: 0, inf: false
+                });
+            }
+
+            // BƯỚC ĐÀ: Giảm 50% sát thương của đòn đánh đầu tiên nhận phải sau khi lướt
+            if (this.buocDaShieldActive) {
+                finalDmg *= 0.5;
+                this.buocDaShieldActive = false; // Tiêu hao sau đòn đầu tiên
+            }
+
+            // MÈO ĐEN MAY MẮN
             if (enemy.runes && enemy.runes[0] && enemy.runes[0].id === 'meodenmayman') {
                 if (Math.random() < 0.75) {
                     effects.push(new DamageText(this.x + this.width / 2, this.y - 10, "0", '#888888'));
-                    return; // 75% không gây sát thương
+                    return;
                 } else {
                     finalDmg *= 4.5;
                 }
             }
 
-            // 2. ÁM SÁT (GÂY THÊM SÁT THƯƠNG KHI ĐÁNH VÀO LƯNG ĐỊCH)
+            // ÁM SÁT
             if (enemy.runes && enemy.runes[0] && enemy.runes[0].id === 'amsat') {
                 let isBehind = (this.facingRight && enemy.x < this.x) || (!this.facingRight && enemy.x > this.x);
-                if (isBehind) {
-                    finalDmg *= 2.0;
-                }
+                if (isBehind) finalDmg *= 2.0;
             }
 
-            // 3. ĐÈN PIN THU NHỎ (TĂNG 75% DAME)
-            if (this.denPinTimer > 0) {
-                finalDmg *= 1.75;
-            }
+            // ĐÈN PIN THU NHỎ
+            if (this.denPinTimer > 0) finalDmg *= 1.75;
 
-            // 4. BÀN CHÂN LÒ XO
+            // BÀN CHÂN LÒ XO
             if (enemy.runes && enemy.runes[0] && enemy.runes[0].id === 'banchanloxo') {
                 finalDmg *= (1 + (enemy.banChanLoXoBonus || 0) / 100);
             }
 
-            // 5. ĐÔI CÁNH TỰ DO (MIỄN ST RƠI)
+            // ĐÔI CÁNH TỰ DO
             if (damageType === 'fall' && this.runes && this.runes[0] && this.runes[0].id === 'doicanhtudo') {
                 return;
             }
 
-            // 6. CHẤN ÁP
+            // CHẤN ÁP
             if (enemy.runes && enemy.runes[0] && enemy.runes[0].id === 'chanap') {
                 if (this.hp > this.maxHp * 0.8) finalDmg *= 1.75;
             }
 
-            // 7. ĐIỂM YẾU
+            // ĐIỂM YẾU
             if (enemy.runes && enemy.runes[0] && enemy.runes[0].id === 'diemyeu') {
                 if (this.hp < this.maxHp * 0.5) finalDmg *= 1.30;
             }
 
-            // 8. ĐAO TÀN
+            // ĐAO TÀN
             if (enemy.runes && enemy.runes[0] && enemy.runes[0].id === 'daotan') {
                 finalDmg *= (1 + (enemy.daotanBonus || 0) / 100);
             }
 
-            // 9. SỐNG DAI THÀNH HUYỀN THOẠI
+            // SỐNG DAI THÀNH HUYỀN THOẠI
             if (enemy.runes && enemy.runes[0] && enemy.runes[0].id === 'songdaithanhhuyenthoai') {
                 if (enemy.songDaiSnapTotems !== null && enemy.totems >= enemy.songDaiSnapTotems) finalDmg *= 2.0;
             }
@@ -287,28 +400,24 @@ function initPhuHieuMode() {
                 if (this.songDaiSnapTotems !== null && this.totems >= this.songDaiSnapTotems) finalDmg *= 0.75;
             }
 
-            // 10. TINH THẦN YẾU ỚT
+            // TINH THẦN YẾU ỚT
             if (enemy.runes && enemy.runes[3] && enemy.runes[3].id === 'tinhthanyeuot') {
                 finalDmg *= (1 + (enemy.tinhThanStacks || 0) / 100);
             }
 
-            // 11. THỂ PHÁCH TITAN
+            // THỂ PHÁCH TITAN
             let hasTitan = (enemy.runes[1] && enemy.runes[1].id === 'thephachtitan') || (enemy.runes[2] && enemy.runes[2].id === 'thephachtitan');
-            if (hasTitan) {
-                finalDmg *= 3.0;
-            }
+            if (hasTitan) finalDmg *= 3.0;
 
-            // 12. ĐỪNG CẢN TAO (GIẢM 25% SÁT THƯƠNG NHẬN VÀO)
+            // ĐỪNG CẢN TAO
             if (this.runes && this.runes[3] && this.runes[3].id === 'dungcantao') {
                 finalDmg *= 0.75;
             }
 
-            // 13. TIẾN LÊN (GIẢM 75% DAME TRONG LÚC TÍCH TỐC)
-            if (this.tienLenStage === 3) {
-                finalDmg *= 0.25;
-            }
+            // TIẾN LÊN
+            if (this.tienLenStage === 3) finalDmg *= 0.25;
 
-            // 14. CHẬM MÀ CHẮC (ONEHIT ĐÒN ĐÁNH THƯỜNG / CHIÊU)
+            // CHẬM MÀ CHẮC
             if (enemy.chamMaChacReady) {
                 finalDmg = this.hp + (this.tempShield || 0) + (this.boomShield || 0);
                 enemy.chamMaChacReady = false;
@@ -323,36 +432,70 @@ function initPhuHieuMode() {
                 setTimeout(() => canvas.style.transform = 'none', 200);
             }
 
-            // 15. TỬ CHIẾN
+            // TỬ CHIẾN
             if (this.tuChienActiveTimer > 0) {
                 let reductRatio = this.tuChienActiveTimer / 300;
                 finalDmg *= (1 - reductRatio);
             }
 
-            // 16. TẤM KHIÊN KIÊN CỐ (MAX 40 DAME / ĐÒN)
+            // TẤM KHIÊN KIÊN CỐ
             let hasTamKhien = (this.runes[1] && this.runes[1].id === 'tamkhienkienco') || (this.runes[2] && this.runes[2].id === 'tamkhienkienco');
             if (hasTamKhien) {
                 finalDmg = Math.min(40, finalDmg);
             }
 
-            // 17. TRÁNH DỒN (TỐI ĐA 50 DAME MỖI GIÂY)
+            // TRÁNH DỒN
             let hasTranhDon = (this.runes[1] && this.runes[1].id === 'tranhdon') || (this.runes[2] && this.runes[2].id === 'tranhdon');
             if (hasTranhDon) {
-                if (this.tranhDonCurrent <= 0) {
-                    return;
-                }
-                if (finalDmg > this.tranhDonCurrent) {
-                    finalDmg = this.tranhDonCurrent;
-                }
+                if (this.tranhDonCurrent <= 0) return;
+                if (finalDmg > this.tranhDonCurrent) finalDmg = this.tranhDonCurrent;
                 this.tranhDonCurrent -= finalDmg;
             }
 
             origTakeDamage.call(this, finalDmg, damageType);
 
-            // TẠO HỐ ĐEN KHI GÂY DAME
+            // CÔNG THỦ TOÀN DIỆN (PHÍA PHÒNG THỦ): Tích lũy sát thương nhận vào để cường hóa đòn đánh sau
+            if (this.runes && ((this.runes[1] && this.runes[1].id === 'congthutoandien') || (this.runes[2] && this.runes[2].id === 'congthutoandien'))) {
+                this.congThuDamageAccum = (this.congThuDamageAccum || 0) + finalDmg;
+                this.congThuNextAtkBonus = (this.congThuDamageAccum / 2);
+            }
+
+            // ĐỘC CÔ CẦU BẠI: Hồi phục 200% sát thương gây ra và 5% cơ hội gây thêm 5 sát thương
+            if (enemy.runes && enemy.runes[3] && enemy.runes[3].id === 'doccocaubai' && finalDmg > 0) {
+                enemy.hp = Math.min(enemy.maxHp, enemy.hp + finalDmg * 2.0);
+                if (Math.random() < 0.05) {
+                    this.takeDamage(5, 'doccocaubai_extra');
+                    effects.push(new Explosion(this.x + this.width / 2, this.y + this.height / 2, 25, '#ffffff'));
+                }
+            }
+
+            // TRIỆT ĐỂ ĐIÊN CUỒNG: Bắn thêm đạn lửa đỏ gây 20% sát thương
+            if (enemy.runes && enemy.runes[3] && enemy.runes[3].id === 'trietdediencuong' && finalDmg > 0) {
+                if ((enemy.trietDeShootCd || 0) <= 0) {
+                    enemy.trietDeShootCd = 120; // Hồi 2 giây
+                    let pDmg = finalDmg * 0.20;
+                    spawnRuneBulletAround(enemy, this, 'red', pDmg);
+                }
+            }
+
+            // MƯA TÊN: Đòn đánh thường [R] bắn thêm 1 phát đạn thuộc tính đòn đánh thường, 50% cơ hội x2 dame
+            if (enemy.runes && enemy.runes[3] && enemy.runes[3].id === 'muaten' && damageType === 'basic' && !enemy.isFiringRainArrow) {
+                enemy.isFiringRainArrow = true;
+                setTimeout(() => {
+                    if (enemy && !enemy.isDead) {
+                        let isCrit = Math.random() < 0.50;
+                        let extraDmg = finalDmg * (isCrit ? 2.0 : 1.0);
+                        this.takeDamage(extraDmg, 'muaten_arrow');
+                        effects.push(new Explosion(this.x + this.width / 2, this.y + this.height / 2, 35, '#ffff00'));
+                    }
+                    if (enemy) enemy.isFiringRainArrow = false;
+                }, 100);
+            }
+
+            // HỐ ĐEN
             if (enemy.runes && enemy.runes[3] && enemy.runes[3].id === 'hoden' && finalDmg > 0) {
                 if (enemy.hoDenCd <= 0) {
-                    enemy.hoDenCd = 15; // 0.25s hồi
+                    enemy.hoDenCd = 15;
                     phuHieuState.blackHoles.push(new BlackHoleVortex(this.x + this.width / 2, this.y + this.height / 2, enemy, this));
                 }
             }
@@ -372,7 +515,7 @@ function initPhuHieuMode() {
                 phuHieuState.flashWhiteTimer = 150;
             }
 
-            // TUNG TUNG SAHUR XỬ LÝ CHẾT MẠNG
+            // TUNG TUNG SAHUR
             if (this.isTungTung && this.hp <= 0) {
                 if (this.tungTungLives > 1) {
                     this.tungTungLives--;
@@ -499,7 +642,11 @@ function initPhuHieuMode() {
                     effects.push(new Explosion(this.x + this.width / 2, this.y + this.height / 2, 100, '#00ff00'));
                     effects.push(new OvalShockwave(this.x + this.width / 2, this.y + this.height / 2, true, '#00ff00', 0));
 
-                    // KÍCH HOẠT VÙNG HIẾN TẾ
+                    // FAMI CANXI: Hồi phục đầy đủ lại khi nổ totem
+                    if (this.runes && this.runes[0] && this.runes[0].id === 'famicanxi') {
+                        this.hp = this.maxHp;
+                    }
+
                     let hasHienTe = (this.runes[1] && this.runes[1].id === 'hiente') || (this.runes[2] && this.runes[2].id === 'hiente');
                     if (hasHienTe) {
                         phuHieuState.vfx.push(new HienTeWarningArea(this.x + this.width / 2, this.y + this.height / 2, this, enemy));
@@ -521,7 +668,9 @@ function initPhuHieuMode() {
             }
         };
 
-        // --- HOOK TRIGGER SKILL ---
+        // ===================================================
+        // HOOK TRIGGER SKILL
+        // ===================================================
         const origTriggerSkill = player.triggerSkill;
         player.triggerSkill = function (skillKey) {
             if (!this.chamMaChacReady) {
@@ -529,7 +678,14 @@ function initPhuHieuMode() {
             }
 
             if (this.tienLenStage === 1) {
-                return; // Đang tụ tiến lên thì không dùng được chiêu
+                return;
+            }
+
+            // TRIỆT ĐỂ ĐIÊN CUỒNG: Bị câm lặng kỹ năng hoàn toàn
+            if (this.runes && this.runes[3] && this.runes[3].id === 'trietdediencuong') {
+                if (skillKey !== 'basic' && skillKey !== 'dash') {
+                    return;
+                }
             }
 
             if (this.isTungTung) {
@@ -551,7 +707,7 @@ function initPhuHieuMode() {
                 return;
             }
 
-            // ĐẠI BÁC KHÔNG KHÍ (SAU ĐÁNH THƯỜNG 0.2S)
+            // ĐẠI BÁC KHÔNG KHÍ
             if (skillKey === 'basic' && this.runes && this.runes[3] && this.runes[3].id === 'daibackhongkhi') {
                 setTimeout(() => {
                     if (this.isDead) return;
@@ -561,7 +717,7 @@ function initPhuHieuMode() {
                 }, 200);
             }
 
-            // MA CHẢM (ĐÁNH THÊM 1 ĐÒN ĐÁNH THƯỜNG 50% DAME SAU 0.2S)
+            // MA CHẢM
             if (skillKey === 'basic' && this.runes && this.runes[3] && this.runes[3].id === 'macham') {
                 setTimeout(() => {
                     if (this.isDead) return;
@@ -578,7 +734,9 @@ function initPhuHieuMode() {
             }
         };
 
-        // --- HOOK EXECUTE SKILL ---
+        // ===================================================
+        // HOOK EXECUTE SKILL
+        // ===================================================
         const origExecuteSkill = player.executeSkill;
         player.executeSkill = function (skillKey) {
             if (this.isTungTung) {
@@ -641,7 +799,9 @@ function initPhuHieuMode() {
             }
         };
 
-        // --- HOOK UPDATE ---
+        // ===================================================
+        // HOOK UPDATE LOGIC PLAYER
+        // ===================================================
         const origUpdate = player.update;
         player.update = function () {
             let enemy = (this === player1) ? player2 : player1;
@@ -653,8 +813,134 @@ function initPhuHieuMode() {
             if (this.bomMuCd > 0) this.bomMuCd--;
             if (this.cucTrauShieldTimer > 0) this.cucTrauShieldTimer--;
             if (this.hoDenCd > 0) this.hoDenCd--;
+            if (this.trietDeShootCd > 0) this.trietDeShootCd--;
 
-            // BÀN CHÂN LÒ XO (TỰ ĐỘNG NẢY THÊM & TĂNG SÁT THƯƠNG)
+            // CƠ CHẾ NHẬN DIỆN DASH TỔNG QUÁT (Bao gồm kỹ năng lướt và tốc độ tức thời)
+            let isSkillDashing = this.isDashing || this.isGammaDashing || this.isSpearDashing ||
+                                this.isAllainS2Dashing || this.isGenjiDashing || this.isMarioDashing ||
+                                this.isTanjiroS1Dashing || this.isTanjiro2C1 || this.isLeviDashing ||
+                                this.isLeviS3Dashing || this.isAlexPassiveDashing;
+
+            let instantDist = Math.hypot(this.x - (this.prevX || this.x), this.y - (this.prevY || this.y));
+            let isMovingUltraFast = instantDist > 18;
+
+            let isCurrentlyDashing = isSkillDashing || isMovingUltraFast;
+
+            // KHI BẮT ĐẦU MỘT PHA DASH
+            if (isCurrentlyDashing && !this.wasGeneralDashing) {
+                // Phù hiệu: Bước Đà (nhận Ironbody 1s và khiên 50% cho đòn tới)
+                if (this.runes && ((this.runes[1] && this.runes[1].id === 'buocda') || (this.runes[2] && this.runes[2].id === 'buocda'))) {
+                    this.addStatus('ironbody', 'buff', 'assets/icon/buff/ironbody.png', 60, 0, 60);
+                    this.buocDaShieldActive = true;
+                }
+
+                // Phù hiệu: Xé Gió (cường hóa đòn đánh kế gây thêm 7 dame + choáng 0.5s)
+                if (this.runes && ((this.runes[1] && this.runes[1].id === 'xegio') || (this.runes[2] && this.runes[2].id === 'xegio'))) {
+                    this.xeGioEmpowered = true;
+                }
+
+                // Phù hiệu: Túi Khí
+                if (this.runes && this.runes[0] && this.runes[0].id === 'tuikhi') {
+                    let shieldVal = Math.floor(this.maxHp * 0.15);
+                    this.addStatus('bhshield', 'buff', 'assets/icon/buff/mode/bhshield.png', 300, shieldVal, 60);
+                }
+
+                // Phù hiệu: Tia Chớp (gây 5 dame dọc đường và để lại vết điện)
+                if (this.runes && ((this.runes[1] && this.runes[1].id === 'tiachop') || (this.runes[2] && this.runes[2].id === 'tiachop'))) {
+                    if (enemy && checkCollision(this, enemy)) {
+                        enemy.takeDamage(5, 'tiachop_dash');
+                    }
+                    phuHieuState.lightningTrails.push(new LightningTrailZone(this.x, this.y, this.prevX || this.x, this.prevY || this.y, this));
+                }
+            }
+
+            this.wasGeneralDashing = isCurrentlyDashing;
+            this.prevX = this.x;
+            this.prevY = this.y;
+
+            // NHANH NHƯ CHỚP: Giảm hồi Dash còn 0.15s (9 frames)
+            if (this.runes && this.runes[3] && this.runes[3].id === 'nhanhnhuchop') {
+                if (this.cds.dash > 9) {
+                    this.cds.dash = 9;
+                }
+            }
+
+            // KỈ BĂNG HÀ: Tăng 50% thời gian mọi debuff đặt lên đối thủ
+            if (this.runes && this.runes[0] && this.runes[0].id === 'kibangha') {
+                if (enemy && enemy.statusList) {
+                    enemy.statusList.forEach(st => {
+                        if (st.type === 'debuff' && !st.kibanghaExtended && !st.inf) {
+                            st.timer = Math.floor(st.timer * 1.5);
+                            st.maxTimer = Math.floor(st.maxTimer * 1.5);
+                            st.kibanghaExtended = true;
+                        }
+                    });
+                }
+            }
+
+            // ĐẶC CÁCH ÂM DƯƠNG: Luân chuyển mỗi 2.5s (150 frames)
+            if (this.runes && this.runes[0] && this.runes[0].id === 'daccachamduong') {
+                this.amDuongTimer = (this.amDuongTimer || 0) + 1;
+                if (this.amDuongTimer >= 150) {
+                    this.amDuongTimer = 0;
+                    this.amDuongState = (this.amDuongState === 'duong') ? 'am' : 'duong';
+                }
+
+                // Cập nhật vị trí đồng xu bám theo sau chậm hơn
+                if (!this.amDuongCoin) this.amDuongCoin = { x: this.x, y: this.y };
+                let coinDx = (this.x + this.width / 2) - this.amDuongCoin.x;
+                let coinDy = (this.y - 10) - this.amDuongCoin.y;
+                this.amDuongCoin.x += coinDx * 0.06;
+                this.amDuongCoin.y += coinDy * 0.06;
+            }
+
+            // FAMI CANXI: Tăng 500% HP, mỗi 1s mất 5% HP tối đa cho tới khi còn 25% máu gốc
+            if (this.runes && this.runes[0] && this.runes[0].id === 'famicanxi') {
+                if (!this.famiCanxiApplied) {
+                    this.famiCanxiApplied = true;
+                    this.famiCanxiOriginalHp = this.maxHp;
+                    this.maxHp = this.maxHp * 5.0;
+                    this.hp = this.maxHp;
+                }
+
+                this.famiCanxiLossTimer = (this.famiCanxiLossTimer || 0) + 1;
+                if (this.famiCanxiLossTimer >= 60) {
+                    this.famiCanxiLossTimer = 0;
+                    let threshold = this.famiCanxiOriginalHp * 0.25;
+                    if (this.hp > threshold) {
+                        let loss = this.maxHp * 0.05;
+                        this.hp = Math.max(threshold, this.hp - loss);
+                    }
+                }
+            }
+
+            // TRIỆT ĐỂ ĐIÊN CUỒNG: Khóa chiêu ở 10s
+            if (this.runes && this.runes[3] && this.runes[3].id === 'trietdediencuong') {
+                this.cds.c1 = 600;
+                this.cds.c2 = 600;
+                this.cds.c3 = 600;
+                if (this.cds.basic > 0) {
+                    this.cds.basic = Math.max(0, this.cds.basic - 2); // +200% tốc đánh
+                }
+            }
+
+            // ĐỘC CÔ CẦU BẠI: Giảm tốc hồi chiêu đánh thường (+100% tốc đánh)
+            if (this.runes && this.runes[3] && this.runes[3].id === 'doccocaubai') {
+                if (this.cds.basic > 0) {
+                    this.cds.basic = Math.max(0, this.cds.basic - 1);
+                }
+            }
+
+            // CÔNG THỦ TOÀN DIỆN: Đếm ngược thời gian giáp ảo 7s
+            if (this.congThuShieldTimer > 0) {
+                this.congThuShieldTimer--;
+                if (this.congThuShieldTimer <= 0) {
+                    this.tempShield = 0;
+                    this.removeStatus('hshield');
+                }
+            }
+
+            // BÀN CHÂN LÒ XO
             if (this.runes && this.runes[0] && this.runes[0].id === 'banchanloxo') {
                 if (this.vy < -2 && !this.onGround && !this.isAutoSpringJumping && this.jumpCount === 1) {
                     this.isAutoSpringJumping = true;
@@ -671,20 +957,12 @@ function initPhuHieuMode() {
                 }
             }
 
-            // TÚI KHÍ (LƯỚT NHẬN GIÁP ẢO)
-            if (this.runes && this.runes[0] && this.runes[0].id === 'tuikhi') {
-                if (this.isDashing && this.dashTimer === 14) {
-                    let shieldVal = Math.floor(this.maxHp * 0.15);
-                    this.addStatus('bhshield', 'buff', 'assets/icon/buff/mode/bhshield.png', 300, shieldVal, 60);
-                }
-            }
-
             // VỎ CHUỐI
             if (this.runes && this.runes[0] && this.runes[0].id === 'vochuoi') {
                 let isMoving = Math.abs(this.vx) > 0.5;
                 if (isMoving) {
                     this.voChuoiTimer = (this.voChuoiTimer || 0) + 1;
-                    if (this.voChuoiTimer >= 150) { // 2.5s
+                    if (this.voChuoiTimer >= 150) {
                         this.voChuoiTimer = 0;
                         if ((phuHieuState.bananaPeels || []).length < 10) {
                             phuHieuState.bananaPeels.push(new BananaPeelEntity(this.x + this.width / 2, this.y + this.height - 5, this));
@@ -693,7 +971,6 @@ function initPhuHieuMode() {
                 }
             }
 
-            // XỬ LÝ KHI BỊ TRƯỢT VỎ CHUỐI
             if (this.voChuoiSlippedTimer > 0) {
                 this.voChuoiSlippedTimer--;
                 this.addStatus('stuncc', 'debuff', 'assets/icon/debuff/stuncc.png', 10, 0, 60);
@@ -702,26 +979,19 @@ function initPhuHieuMode() {
             // KHĂN TRÙM THỜI GIAN
             if (this.runes && this.runes[0] && this.runes[0].id === 'khantrumthoigian') {
                 this.khanTrumTimer = (this.khanTrumTimer || 0) + 1;
-                
                 if (this.khanTrumTimer === 1) {
-                    this.khanTrumSnap = {
-                        hp: this.hp,
-                        totems: this.totems,
-                        cds: { ...this.cds }
-                    };
+                    this.khanTrumSnap = { hp: this.hp, totems: this.totems, cds: { ...this.cds } };
                 }
-                
-                if (this.khanTrumTimer === 240) { // 4s
+                if (this.khanTrumTimer === 240) {
                     if (this.khanTrumSnap) {
                         this.hp = this.khanTrumSnap.hp;
                         this.totems = this.khanTrumSnap.totems;
                         this.cds = { ...this.khanTrumSnap.cds };
-                        this.khanTrumAnimTimer = 45; 
+                        this.khanTrumAnimTimer = 45;
                         effects.push(new Explosion(this.x + this.width / 2, this.y + this.height / 2, 70, '#ff00ff'));
                     }
                 }
-
-                if (this.khanTrumTimer >= 600) { // 10s
+                if (this.khanTrumTimer >= 600) {
                     this.khanTrumTimer = 0;
                 }
             }
@@ -730,7 +1000,7 @@ function initPhuHieuMode() {
             if (this.runes && this.runes[0] && this.runes[0].id === 'denpinthunho') {
                 if (!this.denPinApplied && enemy) {
                     this.denPinApplied = true;
-                    enemy.denPinTimer = 3600; // 60s
+                    enemy.denPinTimer = 3600;
                     enemy.width = 15;
                     enemy.height = 25;
                     effects.push(new Explosion(enemy.x, enemy.y, 60, '#ffff00'));
@@ -746,7 +1016,7 @@ function initPhuHieuMode() {
                 }
             }
 
-            // XE ÔM CÔNG NGHỆ (TẠO VÙNG BỤI MỖI 75PX)
+            // XE ÔM CÔNG NGHỆ
             let hasXeOm = (this.runes[1] && this.runes[1].id === 'xeomcongnghe') || (this.runes[2] && this.runes[2].id === 'xeomcongnghe');
             if (hasXeOm) {
                 let dist = Math.hypot(this.vx, this.vy);
@@ -757,7 +1027,7 @@ function initPhuHieuMode() {
                 }
             }
 
-            // TRÁNH DỒN (HỒI LIMIT MỖI 1S)
+            // TRÁNH DỒN
             let hasTranhDon = (this.runes[1] && this.runes[1].id === 'tranhdon') || (this.runes[2] && this.runes[2].id === 'tranhdon');
             if (hasTranhDon) {
                 this.tranhDonTimer = (this.tranhDonTimer || 0) + 1;
@@ -767,7 +1037,7 @@ function initPhuHieuMode() {
                 }
             }
 
-            // VÔ HẠ HẠN (5S BẬT, 5S TẮT)
+            // VÔ HẠ HẠN
             let hasVoHaHan = (this.runes[1] && this.runes[1].id === 'vohahan') || (this.runes[2] && this.runes[2].id === 'vohahan');
             if (hasVoHaHan) {
                 this.voHaHanTimer = (this.voHaHanTimer || 0) + 1;
@@ -777,7 +1047,6 @@ function initPhuHieuMode() {
                     let cx = this.x + this.width / 2;
                     let cy = this.y + this.height / 2;
 
-                    // Đẩy địch ra rìa trục X
                     if (enemy && !enemy.isDead) {
                         let edist = Math.hypot((enemy.x + enemy.width / 2) - cx, (enemy.y + enemy.height / 2) - cy);
                         if (edist < shieldRadius) {
@@ -787,7 +1056,6 @@ function initPhuHieuMode() {
                         }
                     }
 
-                    // Dính và đẩy đạn địch ra rìa trục X (không cho bay xuyên vào)
                     for (let proj of projectiles) {
                         if (proj.owner !== this && proj.active) {
                             let pdist = Math.hypot((proj.x + (proj.width || 10) / 2) - cx, (proj.y + (proj.height || 10) / 2) - cy);
@@ -806,10 +1074,10 @@ function initPhuHieuMode() {
                 }
             }
 
-            // LÙA BÒ (MỖI 2.5S SPAWN BÒ CÓ SỪNG)
+            // LÙA BÒ
             if (this.runes && this.runes[3] && this.runes[3].id === 'luabo') {
                 this.luaBoTimer = (this.luaBoTimer || 0) + 1;
-                if (this.luaBoTimer >= 150) { // 2.5s
+                if (this.luaBoTimer >= 150) {
                     this.luaBoTimer = 0;
                     let fromLeft = Math.random() < 0.5;
                     let sx = fromLeft ? -50 : canvas.width + 50;
@@ -827,18 +1095,18 @@ function initPhuHieuMode() {
                     this.vx = 0; this.vy = 0;
                 }
 
-                if (this.tienLenStage === 1) { // 5s đứng yên tích lũy
+                if (this.tienLenStage === 1) {
                     this.vx = 0;
                     this.speed = 0;
                     this.cds.dash = 300;
                     this.cds.c1 = 300; this.cds.c2 = 300; this.cds.c3 = 300;
                     this.tienLenTimer++;
 
-                    if (this.tienLenTimer % 20 === 0) { // mỗi 1/3s +1 tầng
+                    if (this.tienLenTimer % 20 === 0) {
                         this.tienLenStacks++;
                     }
 
-                    if (this.tienLenTimer >= 300) { // Hết 5s chuyển sang chế độ tăng tốc
+                    if (this.tienLenTimer >= 300) {
                         this.tienLenStage = 3;
                         this.tienLenTimer = 0;
                     }
@@ -851,7 +1119,6 @@ function initPhuHieuMode() {
                         this.tienLenStacks++;
                     }
 
-                    // Va chạm với địch
                     if (enemy && checkCollision(this, enemy)) {
                         let dmg = Math.max(1, Math.pow(this.tienLenStacks / 4, 2) - 1);
                         enemy.takeDamage(dmg, 'tienlen');
@@ -862,13 +1129,13 @@ function initPhuHieuMode() {
                         this.tienLenStage = 0;
                         this.tienLenStacks = 0;
                         this.tienLenTimer = 0;
-                        this.cds.dash = 300; // phạt 5s Dash
-                        this.speed = this.baseSpeed || 5.5; // Trả về tốc độ gốc
+                        this.cds.dash = 300;
+                        this.speed = this.baseSpeed || 5.5;
                     }
                 }
             }
 
-            // MUỖI (KHỞI TẠO NẾU CHƯA CÓ)
+            // MUỖI
             if (this.runes && this.runes[0] && this.runes[0].id === 'muoi') {
                 if (!this.muoiList || this.muoiList.length === 0) {
                     this.muoiList = [];
@@ -888,9 +1155,7 @@ function initPhuHieuMode() {
             // BÓNG MA
             let hasBongMa = (this.runes[1] && this.runes[1].id === 'bongma') || (this.runes[2] && this.runes[2].id === 'bongma');
             if (hasBongMa) {
-                if (!this.shadowRunePos) {
-                    this.shadowRunePos = { x: this.x, y: this.y };
-                }
+                if (!this.shadowRunePos) this.shadowRunePos = { x: this.x, y: this.y };
                 if (this.isDashing && this.dashTimer === 14) {
                     this.cds.dash = 30;
                     let curX = this.x;
@@ -904,7 +1169,7 @@ function initPhuHieuMode() {
                 }
             }
 
-            // CHẬM MÀ CHẮC (TÍCH ĐỦ 15S KHÔNG TẤN CÔNG)
+            // CHẬM MÀ CHẮC
             let hasChamMaChac = (this.runes[3] && this.runes[3].id === 'chammachac');
             if (hasChamMaChac) {
                 if (!this.chamMaChacReady) {
@@ -1136,10 +1401,101 @@ function initPhuHieuMode() {
             origUpdate.call(this);
         };
 
-        // --- HOOK DRAW ---
+        // ===================================================
+        // HOOK DRAW LOGIC PLAYER
+        // ===================================================
         const origDraw = player.draw;
         player.draw = function () {
             let enemy = (this === player1) ? player2 : player1;
+
+            // HIỆU ỨNG ĐỒNG XU ĐẶC CÁCH ÂM DƯƠNG
+            if (this.runes && this.runes[0] && this.runes[0].id === 'daccachamduong' && this.amDuongCoin) {
+                ctx.save();
+                let isDuong = this.amDuongState === 'duong';
+                let coinColor = isDuong ? '#ffd700' : '#8a2be2';
+                ctx.fillStyle = coinColor;
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 1.5;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = coinColor;
+
+                ctx.beginPath();
+                ctx.arc(this.amDuongCoin.x, this.amDuongCoin.y, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                ctx.fillStyle = isDuong ? '#000' : '#fff';
+                ctx.fillRect(this.amDuongCoin.x - 2, this.amDuongCoin.y - 2, 4, 4);
+                ctx.restore();
+            }
+
+            // KHIÊN LỤC GIÁC ĐỎ: CÔNG THỦ TOÀN DIỆN
+            if (this.runes && ((this.runes[1] && this.runes[1].id === 'congthutoandien') || (this.runes[2] && this.runes[2].id === 'congthutoandien'))) {
+                ctx.save();
+                ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
+                ctx.strokeStyle = '#ff0033';
+                ctx.lineWidth = 2.5;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = '#ff0033';
+                ctx.beginPath();
+                let r = 38;
+                for (let i = 0; i < 6; i++) {
+                    let a = (Math.PI / 3) * i;
+                    let hx = r * Math.cos(a);
+                    let hy = r * Math.sin(a);
+                    if (i === 0) ctx.moveTo(hx, hy);
+                    else ctx.lineTo(hx, hy);
+                }
+                ctx.closePath();
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            // AURA ĐỘC CÔ CẦU BẠI (Tím - Đỏ - Trắng)
+            if (this.runes && this.runes[3] && this.runes[3].id === 'doccocaubai') {
+                ctx.save();
+                let t = Date.now() / 80;
+                let cx = this.x + this.width / 2;
+                let cy = this.y + this.height / 2;
+
+                ctx.strokeStyle = 'rgba(138, 43, 226, 0.7)';
+                ctx.lineWidth = 3;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = '#8a2be2';
+                ctx.beginPath();
+                ctx.arc(cx, cy, 32 + Math.sin(t) * 4, 0, Math.PI * 2);
+                ctx.stroke();
+
+                ctx.strokeStyle = 'rgba(255, 0, 50, 0.7)';
+                ctx.lineWidth = 2.5;
+                ctx.shadowColor = '#ff0033';
+                ctx.beginPath();
+                ctx.arc(cx, cy, 38 + Math.cos(t) * 4, 0, Math.PI * 2);
+                ctx.stroke();
+
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.lineWidth = 1.5;
+                ctx.shadowColor = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(cx, cy, 44 + Math.sin(t * 1.5) * 3, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            // NGỌN LỬA ĐỎ: TRIỆT ĐỂ ĐIÊN CUỒNG
+            if (this.runes && this.runes[3] && this.runes[3].id === 'trietdediencuong') {
+                if (Math.random() < 0.6) {
+                    effects.push(new FireParticle(
+                        this.x + Math.random() * this.width,
+                        this.y + this.height - Math.random() * 20,
+                        (Math.random() - 0.5) * 2,
+                        -2 - Math.random() * 3,
+                        4 + Math.random() * 4,
+                        25,
+                        '#ff0033'
+                    ));
+                }
+            }
 
             // HIỆU ỨNG XOAY TRÒN KHI BỊ TRƯỢT VỎ CHUỐI
             if (this.voChuoiSlippedTimer > 0) {
@@ -1152,7 +1508,7 @@ function initPhuHieuMode() {
                 return;
             }
 
-            // VẼ KHĂN TRÙM THỜI GIAN TRÙM LÊN NGƯỜI
+            // VẼ KHĂN TRÙM THỜI GIAN
             if (this.khanTrumAnimTimer > 0) {
                 this.khanTrumAnimTimer--;
                 ctx.save();
@@ -1161,7 +1517,6 @@ function initPhuHieuMode() {
                 ctx.lineWidth = 3;
                 ctx.fillRect(this.x - 8, this.y - 8, this.width + 16, this.height + 16);
                 ctx.strokeRect(this.x - 8, this.y - 8, this.width + 16, this.height + 16);
-                
                 ctx.strokeStyle = '#fff';
                 ctx.beginPath();
                 ctx.arc(this.x + this.width / 2, this.y + this.height / 2, 14, 0, Math.PI * 2);
@@ -1169,7 +1524,7 @@ function initPhuHieuMode() {
                 ctx.restore();
             }
 
-            // VẼ MẮT MÈO CHO MÈO ĐEN MAY MẮN
+            // VẼ MẮT MÈO
             if (this.runes && this.runes[0] && this.runes[0].id === 'meodenmayman') {
                 ctx.save();
                 let cx = this.x + this.width / 2;
@@ -1177,10 +1532,8 @@ function initPhuHieuMode() {
                 ctx.fillStyle = '#ffd700';
                 ctx.shadowBlur = 10;
                 ctx.shadowColor = '#ffff00';
-                
                 ctx.beginPath(); ctx.ellipse(cx - 7, topY, 4, 6, -Math.PI / 12, 0, Math.PI * 2); ctx.fill();
                 ctx.beginPath(); ctx.ellipse(cx + 7, topY, 4, 6, Math.PI / 12, 0, Math.PI * 2); ctx.fill();
-
                 ctx.fillStyle = '#000000';
                 ctx.fillRect(cx - 8, topY - 5, 2, 10);
                 ctx.fillRect(cx + 6, topY - 5, 2, 10);
@@ -1200,7 +1553,7 @@ function initPhuHieuMode() {
                 ctx.restore();
             }
 
-            // VẼ VÔ HẠ HẠN BARRIER
+            // VẼ VÔ HẠ HẠN
             if (this.voHaHanActive && ((this.runes[1] && this.runes[1].id === 'vohahan') || (this.runes[2] && this.runes[2].id === 'vohahan'))) {
                 ctx.save();
                 let cx = this.x + this.width / 2;
@@ -1216,13 +1569,12 @@ function initPhuHieuMode() {
                 ctx.restore();
             }
 
-            // VẼ LỰC CẢN KHÔNG KHÍ KHI TIẾN LÊN
+            // TIẾN LÊN LỰC CẢN KHÔNG KHÍ
             if (this.tienLenStage === 3) {
                 ctx.save();
                 let cx = this.x + this.width / 2;
                 let cy = this.y + this.height / 2;
                 let dir = this.facingRight ? 1 : -1;
-                
                 ctx.strokeStyle = 'rgba(255, 69, 0, 0.8)';
                 ctx.lineWidth = 4;
                 ctx.beginPath();
@@ -1240,17 +1592,15 @@ function initPhuHieuMode() {
                 ctx.restore();
             }
 
-            // VẼ CÔNG THỨC THỦ KHOA A00
+            // CÔNG THỨC THỦ KHOA A00
             if (this.runes && this.runes[3] && this.runes[3].id === 'thukhoaa00') {
                 ctx.save();
                 let cx = this.x + this.width / 2;
                 let topY = this.y - 28;
-
                 let strNum1 = (this.a00Num1 !== null) ? `${this.a00Num1}` : '?';
                 let strOp = (this.a00Op !== null) ? `${this.a00Op}` : '?';
                 let strNum2 = (this.a00Num2 !== null) ? `${this.a00Num2}` : '?';
                 let strRes = (this.a00Result !== null) ? `= ${this.a00Result}` : '';
-
                 let formulaStr = `[${strNum1}] [${strOp}] [${strNum2}] ${strRes}`;
 
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
@@ -1507,6 +1857,59 @@ function spawnNuocRutElectricTrail(player) {
     }
 }
 
+// --- CLASS VỆT ĐIỆN TIA CHỚP ---
+class LightningTrailZone {
+    constructor(x1, y1, x2, y2, owner) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.owner = owner;
+        this.timer = 180; // Tồn tại 3s
+        this.active = true;
+    }
+
+    update() {
+        this.timer--;
+        if (this.timer <= 0) {
+            this.active = false;
+            return;
+        }
+
+        let enemy = (this.owner === player1) ? player2 : player1;
+        if (enemy && !enemy.isDead && this.timer % 60 === 0) {
+            let minX = Math.min(this.x1, this.x2) - 20;
+            let maxX = Math.max(this.x1, this.x2) + 20;
+            let minY = Math.min(this.y1, this.y2) - 20;
+            let maxY = Math.max(this.y1, this.y2) + 20;
+
+            if (enemy.x >= minX && enemy.x <= maxX && enemy.y >= minY && enemy.y <= maxY) {
+                enemy.takeDamage(2, 'tiachop_trail');
+                enemy.addStatus('snowless', 'debuff', 'assets/icon/debuff/snowless.png', 60, 50, 60);
+            }
+        }
+    }
+
+    draw() {
+        if (!this.active) return;
+        ctx.save();
+        let alpha = Math.min(1, this.timer / 60);
+        ctx.strokeStyle = `rgba(0, 255, 255, ${alpha * 0.75})`;
+        ctx.lineWidth = 3;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = '#00ffff';
+
+        ctx.beginPath();
+        ctx.moveTo(this.x1, this.y1);
+        let midX = (this.x1 + this.x2) / 2 + (Math.random() - 0.5) * 15;
+        let midY = (this.y1 + this.y2) / 2 + (Math.random() - 0.5) * 15;
+        ctx.lineTo(midX, midY);
+        ctx.lineTo(this.x2, this.y2);
+        ctx.stroke();
+        ctx.restore();
+    }
+}
+
 // --- CLASS VỎ CHUỐI ENTITY ---
 class BananaPeelEntity {
     constructor(x, y, owner) {
@@ -1542,7 +1945,7 @@ class BananaPeelEntity {
             enemy.speed *= 2.0;
             setTimeout(() => {
                 enemy.speed /= 2.0;
-                enemy.voChuoiSlippedTimer = 120; // 2s choáng xoay tròn
+                enemy.voChuoiSlippedTimer = 120;
             }, 150);
             effects.push(new Explosion(this.x, this.y, 30, '#ffd700'));
         }
@@ -1567,7 +1970,7 @@ class XeOmGasCloud {
         this.x = x;
         this.y = y;
         this.owner = owner;
-        this.timer = 300; // 5s
+        this.timer = 300;
         this.tickTimer = 0;
         this.active = true;
     }
@@ -1580,7 +1983,7 @@ class XeOmGasCloud {
         }
 
         this.tickTimer++;
-        if (this.tickTimer >= 12) { // 0.2s
+        if (this.tickTimer >= 12) {
             this.tickTimer = 0;
             let enemy = (this.owner === player1) ? player2 : player1;
             let dist = Math.hypot((enemy.x + enemy.width / 2) - this.x, (enemy.y + enemy.height / 2) - this.y);
@@ -1609,7 +2012,7 @@ class HienTeWarningArea {
         this.y = y;
         this.owner = owner;
         this.target = target;
-        this.timer = 300; // 5s
+        this.timer = 300;
         this.radius = 360;
         this.active = true;
     }
@@ -1659,7 +2062,7 @@ class BlackHoleVortex {
         this.y = y;
         this.owner = owner;
         this.target = target;
-        this.timer = 210; // 3.5s
+        this.timer = 210;
         this.active = true;
     }
 
@@ -1909,7 +2312,9 @@ class ThuKhoaA00Projectile {
     }
 }
 
-// --- UPDATE LOGIC MỖI FRAME ---
+// ==========================================
+// CẬP NHẬT TRONG GAMELOOP CHÍNH
+// ==========================================
 function updatePhuHieuMode(p1, p2, ctx) {
     if (!phuHieuState.active) return;
 
@@ -1941,6 +2346,14 @@ function updatePhuHieuMode(p1, p2, ctx) {
                 phuHieuState.items.push({ x: spawnX, y: spawnY, w: 25, h: 25, floatOffset: 0 });
             }
         }
+    }
+
+    // UPDATE VỆT ĐIỆN TIA CHỚP
+    for (let i = (phuHieuState.lightningTrails || []).length - 1; i >= 0; i--) {
+        let lt = phuHieuState.lightningTrails[i];
+        lt.update();
+        lt.draw();
+        if (!lt.active) phuHieuState.lightningTrails.splice(i, 1);
     }
 
     // UPDATE VỎ CHUỐI
@@ -2219,7 +2632,7 @@ function selectRuneChoice(player, index) {
         return;
     }
 
-    // HOÁN ĐỔI TƯỚNG GIỮA 2 NGƯỜI CHƠI
+    // HOÁN ĐỔI TƯỚNG
     if (rune.id === 'hoandoi') {
         player.pendingChoices = null;
         if (player1 && player2) {
@@ -2231,6 +2644,20 @@ function selectRuneChoice(player, index) {
             effects.push(new Explosion(player2.x + player2.width / 2, player2.y + player2.height / 2, 80, '#ff00ff'));
         }
         return;
+    }
+
+    // ĐỘC CÔ CẦU BẠI: Lập tức còn 1 HP và 1 totem
+    if (rune.id === 'doccocaubai') {
+        player.totems = 1;
+        player.hp = 1;
+        player.baseSpeed *= 1.5; // +50% tốc chạy
+        effects.push(new Explosion(player.x + player.width / 2, player.y + player.height / 2, 80, '#8a2be2'));
+    }
+
+    // TRIỆT ĐỂ ĐIÊN CUỒNG: +100% tốc chạy
+    if (rune.id === 'trietdediencuong') {
+        player.baseSpeed *= 2.0;
+        effects.push(new Explosion(player.x + player.width / 2, player.y + player.height / 2, 80, '#ff0033'));
     }
 
     player.runes[slot] = rune;
@@ -2263,7 +2690,6 @@ function selectRuneChoice(player, index) {
         player.tungTungLives = 2;
         player.maxCds = { basic: 60, c1: 300, c2: 462, c3: 660, dash: player.cds.dash };
         player.cds.basic = 0; player.cds.c1 = 0; player.cds.c2 = 0; player.cds.c3 = 0;
-        
         effects.push(new Explosion(player.x + player.width / 2, player.y + player.height / 2, 120, '#ffd700'));
     }
 
@@ -2361,7 +2787,7 @@ class AnToNoiLonWave {
     }
 }
 
-// --- HIỆU ỨNG SÓNG ÂM MINI KHI TRÚNG ĐỊCH ---
+// --- HIỆU ỨNG SÓNG ÂM MINI ---
 class MiniSonicWaveHit {
     constructor(x, y) {
         this.x = x;
@@ -2428,7 +2854,6 @@ class BoombadinoCrocodinoPlane extends Projectile {
         this.facingRight = facingRight;
         this.bombsDropped = 0;
         this.timer = 0;
-        
         playSkillSound('assets/sounds/sound_skill/trump/c1_plane.ogg');
     }
     update() {
@@ -2477,12 +2902,11 @@ class BoombadinoCrocodinoPlane extends Projectile {
 
         ctx.fillStyle = '#ffd700';
         ctx.fillRect(-78, -12 + Math.sin(Date.now() / 20) * 10, 6, 24);
-
         ctx.restore();
     }
 }
 
-// Bom nổ thả từ Boombadino Crocodino Plane
+// --- BOOMBADINO CROCODINO BOMB ---
 class BoombadinoCrocodinoBomb extends Projectile {
     constructor(x, y, owner) {
         super(x, y, 0, 6, 10, 30, '#333', owner, 25, true);
@@ -2498,7 +2922,6 @@ class BoombadinoCrocodinoBomb extends Projectile {
     explode() {
         this.exploded = true;
         this.active = false;
-        
         playSkillSound('assets/sounds/sound_skill/trump/c1_hit.ogg');
 
         effects.push(new Explosion(this.x + 5, this.y + 30, 170, 'rgba(46, 139, 87, 0.85)'));
@@ -2636,7 +3059,6 @@ class TungTungSpaceCrack {
             ctx.lineTo(endX, endY);
             ctx.stroke();
         }
-
         ctx.restore();
     }
 }
@@ -2695,7 +3117,6 @@ class SkibidiToiletPet {
         let pColor = (this.owner === player1) ? '#ff0055' : '#00bfff';
 
         ctx.save();
-
         ctx.fillStyle = pColor;
         ctx.globalAlpha = 0.3;
         ctx.beginPath();
@@ -2823,7 +3244,6 @@ class LienBaoKichBullet {
         ctx.fillStyle = '#ff00ff';
         ctx.shadowBlur = 10;
         ctx.shadowColor = '#ff00ff';
-        
         ctx.beginPath();
         ctx.moveTo(10, 0);
         ctx.lineTo(-6, -6);
@@ -2831,7 +3251,6 @@ class LienBaoKichBullet {
         ctx.lineTo(-6, 6);
         ctx.closePath();
         ctx.fill();
-
         ctx.restore();
     }
 }
@@ -2986,21 +3405,24 @@ class RuneBullet {
         if (dist < 15) {
             this.target.takeDamage(this.damage, 'rune_bullet');
             this.active = false;
-            effects.push(new Explosion(this.x, this.y, 25, this.colorType === 'yellow' ? '#ffff00' : '#a020f0'));
+            let expColor = this.colorType === 'yellow' ? '#ffff00' : (this.colorType === 'red' ? '#ff0033' : '#a020f0');
+            effects.push(new Explosion(this.x, this.y, 25, expColor));
             return;
         }
         this.x += (dx / dist) * this.speed;
         this.y += (dy / dist) * this.speed;
 
         if (Math.random() < 0.6) {
-            effects.push(new RockParticle(this.x, this.y, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2, this.colorType === 'yellow' ? '#ffff00' : '#8a2be2'));
+            let pColor = this.colorType === 'yellow' ? '#ffff00' : (this.colorType === 'red' ? '#ff0033' : '#8a2be2');
+            effects.push(new RockParticle(this.x, this.y, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2, pColor));
         }
     }
     draw() {
         ctx.save();
-        ctx.fillStyle = this.colorType === 'yellow' ? '#ffff00' : '#a020f0';
+        let drawColor = this.colorType === 'yellow' ? '#ffff00' : (this.colorType === 'red' ? '#ff0033' : '#a020f0');
+        ctx.fillStyle = drawColor;
         ctx.shadowBlur = 12;
-        ctx.shadowColor = ctx.fillStyle;
+        ctx.shadowColor = drawColor;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.colorType === 'yellow' ? 6 : 9, 0, Math.PI * 2);
         ctx.fill();
@@ -3283,7 +3705,6 @@ function drawPhuHieuUI(ctx, p1, p2) {
             ctx.fillStyle = '#ffffff';
             ctx.font = '12px Arial';
             wrapText(ctx, rune.desc, cx + 8, baseY + 45, cardW - 16, 15);
-
             ctx.restore();
         }
     };
@@ -3383,10 +3804,23 @@ function selectRuneDetail(rune) {
 
 let activeDebugPlayerIndex = 1;
 
-// Hàm hoàn tác hiệu ứng khi xóa phù hiệu
 function revertRuneEffect(player, rune) {
     if (!rune || !player) return;
 
+    if (rune.id === 'famicanxi') {
+        if (player.famiCanxiApplied) {
+            player.maxHp = player.famiCanxiOriginalHp || 500;
+            player.hp = Math.min(player.hp, player.maxHp);
+            player.famiCanxiApplied = false;
+        }
+    }
+    if (rune.id === 'doccocaubai') {
+        player.baseSpeed /= 1.5;
+    }
+    if (rune.id === 'trietdediencuong') {
+        player.baseSpeed /= 2.0;
+        player.cds.c1 = 0; player.cds.c2 = 0; player.cds.c3 = 0;
+    }
     if (rune.id === 'banchanloxo') {
         player.banChanLoXoBonus = 0;
     }
@@ -3460,7 +3894,6 @@ function revertRuneEffect(player, rune) {
     }
 }
 
-// Xóa phù hiệu tại slot i và tự động xóa mọi slot phía sau nó (i+1, i+2, ...)
 function removeRuneDebug(playerIndex, slotIndex) {
     let player = (playerIndex === 1) ? player1 : player2;
     if (!player || !player.runes) return;
@@ -3471,11 +3904,9 @@ function removeRuneDebug(playerIndex, slotIndex) {
             player.runes[i] = null;
         }
     }
-
     renderRuneDebugModal();
 }
 
-// Trang bị phù hiệu qua Debug
 function equipRuneDebug(playerIndex, slotIndex, runeId) {
     let player = (playerIndex === 1) ? player1 : player2;
     if (!player) return;
@@ -3491,7 +3922,6 @@ function equipRuneDebug(playerIndex, slotIndex, runeId) {
     renderRuneDebugModal();
 }
 
-// Mở / Đóng Modal Debug Phù Hiệu
 function openRuneDebugModal(playerIndex) {
     activeDebugPlayerIndex = playerIndex;
     let modal = document.getElementById('rune-debug-modal-overlay');
@@ -3623,13 +4053,14 @@ function renderRuneDebugModal() {
     });
 }
 
-// --- LẮNG NGHE PHÍM BẤM TOÀN CỤC TRỰC TIẾP ---
+// ==========================================
+// LẮNG NGHE PHÍM BẤM TOÀN CỤC
+// ==========================================
 window.addEventListener('keydown', (e) => {
     if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
 
     let key = e.key.toLowerCase();
 
-    // 1. Phím Debug mở menu phù hiệu: V (cho P1) và B (cho P2)
     if (key === 'v') {
         let modal = document.getElementById('rune-debug-modal-overlay');
         if (modal && modal.style.display === 'flex' && activeDebugPlayerIndex === 1) {
@@ -3655,7 +4086,6 @@ window.addEventListener('keydown', (e) => {
         return;
     }
 
-    // 2. Chọn Phù hiệu thông thường khi nhặt quả cầu rơi trong map
     if (typeof currentMode === 'undefined' || currentMode !== 'phuhieu' || !gameActive) return;
 
     if (player1 && player1.pendingChoices) {

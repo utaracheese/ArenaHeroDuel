@@ -712,6 +712,7 @@
                 <button class="hero-btn" style="color: #00ccff; border-color: #00ccff;" onclick="selectHero(1, 'trieuvan', 'Triệu Vân')">Triệu Vân</button>
                 <button class="hero-btn" style="color: #32cd32; border-color: #32cd32; text-shadow: 0 0 5px rgba(50,205,50,0.5);" onclick="selectHero(1, 'telannas', 'Tel\'Annas')">Tel'Annas</button>
                 <button class="hero-btn" style="color: #ffd700; border-color: #ffd700; text-shadow: 0 0 5px rgba(255,215,0,0.5);" onclick="selectHero(1, 'wukong', 'Ngộ Không')">Ngộ Không</button>
+                <button class="hero-btn" style="color: #00ffff; border-color: #00ffff; text-shadow: 0 0 5px rgba(0,255,255,0.7);" onclick="selectHero(1, 'wukong2', 'Ngộ Không v2')">Ngộ Không v2</button>
                 <button class="hero-btn hero-yasuo" onclick="selectHero(1, 'yasuo', 'Yasuo')">Yasuo </button>
                 <!--<button class="hero-btn" style="color: #ff4500; border-color: #ff4500;" onclick="selectHero(1, 'ricardo', 'Ricardo')">Ricardo</button>-->
                 <button class="hero-btn" style="color: #ff6600; border-color: #ff6600;" onclick="selectHero(1, 'songoku', 'Son Goku')">Son Goku</button>
@@ -772,6 +773,7 @@
                 <button class="hero-btn" style="color: #00ccff; border-color: #00ccff;" onclick="selectHero(2, 'trieuvan', 'Triệu Vân')">Triệu Vân</button>
                 <button class="hero-btn" style="color: #32cd32; border-color: #32cd32; text-shadow: 0 0 5px rgba(50,205,50,0.5);" onclick="selectHero(2, 'telannas', 'Tel\'Annas')">Tel'Annas</button>
                 <button class="hero-btn" style="color: #ffd700; border-color: #ffd700; text-shadow: 0 0 5px rgba(255,215,0,0.5);" onclick="selectHero(2, 'wukong', 'Ngộ Không')">Ngộ Không</button>
+                <button class="hero-btn" style="color: #00ffff; border-color: #00ffff; text-shadow: 0 0 5px rgba(0,255,255,0.7);" onclick="selectHero(2, 'wukong2', 'Ngộ Không v2')">Ngộ Không v2</button>
                 <button class="hero-btn hero-yasuo" onclick="selectHero(2, 'yasuo', 'Yasuo')">Yasuo </button>
                 <!--<button class="hero-btn" style="color: #ff4500; border-color: #ff4500;" onclick="selectHero(2, 'ricardo', 'Ricardo')">Ricardo</button>-->
                 <button class="hero-btn" style="color: #ff6600; border-color: #ff6600;" onclick="selectHero(2, 'songoku', 'Son Goku')">Son Goku</button>
@@ -1245,7 +1247,7 @@
         { id: 'eren', name: 'Eren Yeager' },
         { id: 'zeroone', name: 'Kamen Rider Zero-One' },
         { id: 'mgpea', name: 'Mega Gatling Pea' },
-
+        { id: 'wukong2', name: 'Ngộ Không v2' },
 
     ];
 
@@ -2256,6 +2258,9 @@ class FireParticle {
                         this.zerooneS3DraggedEnemy = false;
                     }
                 }
+            }
+            if (this.heroType === 'wukong2') {
+                if (typeof updateWukong2 !== 'undefined') updateWukong2(this);
             }
             if (this.heroType === 'eren' && !this.isDead) {
                 let enemy = (this === player1) ? player2 : player1;
@@ -4513,6 +4518,11 @@ else if (this.isChanneling) {
                 else if (skillKey === 'c2') { this.executeSkill('c2'); this.cds.c2 = 420; } // Hồi 7s
                 else if (skillKey === 'c3') { this.executeSkill('c3'); this.cds.c3 = 900; } // Hồi 15s
             }
+            else if (this.heroType === 'wukong2') {
+                if (typeof handleWukong2Skill !== 'undefined') {
+                    handleWukong2Skill(this, skillKey);
+                }
+            }
             else if (this.heroType === 'yasuo') {
                 if (skillKey === 'basic') { 
                     this.executeSkill('basic'); 
@@ -6294,7 +6304,9 @@ else if (this.isChanneling) {
             // --- THÊM VFX HỆ THỐNG HIỆU ỨNG VÀO CUỐI HÀM DRAW ---
             let cx = this.x + this.width/2;
             let cy = this.y + this.height/2;
-
+            if (this.heroType === 'wukong2' && typeof drawWukong2Clone !== 'undefined') {
+                drawWukong2Clone(this);
+            }
             if (this.hasStatus('poison') && Math.random() < 0.3) {
                 effects.push(new Explosion(this.x + Math.random()*this.width, this.y + Math.random()*this.height, 4, 'rgba(0, 255, 0, 0.6)')); // Khói xanh
             }
@@ -8589,6 +8601,65 @@ else if (this.isChanneling) {
 
                 ctx.restore();
             }
+            else if (this.heroType === 'wukong2') {
+                ctx.save();
+                let cx = this.x + this.width / 2;
+                let cy = this.y + this.height / 2;
+
+                // Hiển thị số điểm nội tại trên đầu
+                let points = this.getStatusValue('wukong2_clone_point');
+                ctx.fillStyle = '#00ffff';
+                ctx.font = 'bold 14px Arial';
+                ctx.textAlign = 'center';
+                ctx.shadowBlur = 4; ctx.shadowColor = '#000';
+                ctx.fillText(`${points}`, cx, this.y - 15);
+                ctx.shadowBlur = 0;
+
+                // Thân khỉ màu nâu đỏ
+                ctx.fillStyle = '#8b4513';
+                ctx.fillRect(this.x - 2, this.y, this.width + 4, this.height);
+
+                // Giáp vàng hoàng kim với viền xanh ngọc
+                ctx.fillStyle = '#ffd700';
+                ctx.fillRect(this.x, this.y + 15, this.width, 20);
+                ctx.fillStyle = '#00ffff';
+                ctx.fillRect(this.x + 5, this.y + 35, 20, 10);
+
+                // Đuôi khỉ
+                ctx.strokeStyle = '#8b4513';
+                ctx.lineWidth = 4;
+                ctx.beginPath();
+                if (this.facingRight) {
+                    ctx.moveTo(this.x, this.y + 40);
+                    ctx.quadraticCurveTo(this.x - 20, this.y + 30, this.x - 15, this.y + 20);
+                } else {
+                    ctx.moveTo(this.x + this.width, this.y + 40);
+                    ctx.quadraticCurveTo(this.x + this.width + 20, this.y + 30, this.x + this.width + 15, this.y + 20);
+                }
+                ctx.stroke();
+            
+                // Mặt & Kim Cô
+                ctx.fillStyle = '#ffcc99';
+                ctx.fillRect(this.x + 4, this.y + 4, this.width - 8, 12);
+                ctx.fillStyle = '#ffd700';
+                ctx.fillRect(this.x, this.y + 2, this.width, 3);
+            
+                // Mắt lửa
+                ctx.fillStyle = '#ff0000';
+                let eyeX = this.facingRight ? this.x + 18 : this.x + 6;
+                ctx.fillRect(eyeX, this.y + 6, 6, 3);
+            
+                // Kim Cô Bổng cầm tay
+                ctx.fillStyle = '#ff3333';
+                ctx.translate(cx, this.y + 15);
+                ctx.rotate(this.facingRight ? Math.PI / 6 : -Math.PI / 6);
+                ctx.fillRect(-30, -3, 60, 6);
+                ctx.fillStyle = '#ffd700';
+                ctx.fillRect(-30, -4, 10, 8); ctx.fillRect(20, -4, 10, 8);
+            
+                ctx.restore();
+            }
+            
             else if (this.heroType === 'yasuo') {
                 ctx.save();
                 let cx = this.x + this.width/2;
@@ -10100,6 +10171,7 @@ player2 = new Player(canvas.width * 0.9 - 30, canvas.height - groundHeight - 50,
 <script src="classhero/mgpea.js"></script>
 <script src="classhero/spider.js"></script>
 <script src="classhero/Cuttaraxacum.js"></script>
+<script src="classhero/wukong2.js"></script>
 
 
 
