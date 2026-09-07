@@ -4950,6 +4950,12 @@ else if (this.isChanneling) {
                     }
                 }
                 else if (skillKey === 'c2') {
+                    // Thêm 7% máu tối đa giáp ảo (hshield) kéo dài 5s
+                    let shieldAmount = Math.floor(this.maxHp * 0.07);
+                    this.addStatus('hshield', 'buff', 'assets/icon/buff/hshield.png', 300, shieldAmount, 60);
+                    this.tempShield = (this.tempShield || 0) + shieldAmount;
+                    effects.push(new DamageText(this.x + 15, this.y - 20, `+${shieldAmount} Shield`, '#00ffff'));
+
                     projectiles.push(new WaterVortex(this));
                 }
                 else if (skillKey === 'c3') {
@@ -5336,29 +5342,55 @@ else if (this.isChanneling) {
             }
             else if (this.heroType === 'kid') {
                 if (skillKey === 'basic') {
-                    playSkillSound('assets/sounds/sound_skill/kid/basic_cast.ogg'); // <-- THÊM CAST ĐÁNH THƯỜNG
+                    playSkillSound('assets/sounds/sound_skill/kid/basic_cast.ogg');
                     let px = this.facingRight ? this.x + this.width + 5 : this.x - 15;
-                    projectiles.push(new KidCard(px, this.y + 20, dir * 20, this));
+                    let speed = 22;
+
+                    // Nếu có bài cường hóa trước đó
+                    if (this.kidEmpoweredCard) {
+                        projectiles.push(new KidColorCard(px, this.y + 20, dir * speed, 0, this, this.kidEmpoweredCard, false));
+                        this.kidEmpoweredCard = null; // Dùng xong thì mất
+                    } else {
+                        // Bắn bài cơ bản (trắng)
+                        projectiles.push(new KidCard(px, this.y + 20, dir * speed, 0, this, 7, false));
+                    }
+
+                    // 30% tỷ lệ kích hoạt cường hóa đòn kế tiếp với 1 trong 4 màu
+                    if (Math.random() < 0.30) {
+                        const types = ['red', 'yellow', 'orange', 'blue'];
+                        this.kidEmpoweredCard = types[Math.floor(Math.random() * types.length)];
+                    }
                 }
                 else if (skillKey === 'kid_c1') {
-                    playSkillSound('assets/sounds/sound_skill/kid/c1_spawn.ogg'); // <-- THÊM ÂM CHIM BAY RA
+                    playSkillSound('assets/sounds/sound_skill/kid/c1_spawn.ogg');
                     let px = this.facingRight ? this.x + this.width + 5 : this.x - 25;
                     projectiles.push(new KidDove(px, this.y + 15, dir * 18, this));
                 }
                 else if (skillKey === 'c2') {
                     let px = this.facingRight ? this.x + this.width + 10 : this.x - 40; 
                     let py = this.y + 20;
-                    this.stunTimer = 30; 
+                    playSkillSound('assets/sounds/sound_skill/kid/c2_cast.ogg');
 
-                    let spawnCard = (color, dmg) => {
-                        playSkillSound('assets/sounds/sound_skill/kid/c2_cast.ogg'); // <-- THÊM CAST BẮN BÀI TỪNG LÁ
-                        projectiles.push(new KidColorCard(px, py, dir * 24, this, color, dmg)); 
-                        effects.push(new OvalShockwave(this.facingRight ? px : px + 30, py + 8, this.facingRight, color));
-                    };
+                    // 5 góc tạo thành hình quạt: 0 độ, +-5 độ, +-10 độ
+                    const degAngles = [0, -5, 5, -10, 10];
+                    const cardTypes = ['red', 'yellow', 'orange', 'blue'];
+                    const baseSpeed = 22;
 
-                    this.actionQueue.push({ delay: 0, action: () => spawnCard('#00bfff', 7) });
-                    this.actionQueue.push({ delay: 10, action: () => spawnCard('#32cd32', 10) });
-                    this.actionQueue.push({ delay: 20, action: () => spawnCard('#ff0000', 15) });
+                    // Mỗi hướng bắn 3 tấm bài liên tiếp (delay 6 frames giữa mỗi loạt)
+                    for (let wave = 0; wave < 3; wave++) {
+                        this.actionQueue.push({
+                            delay: wave * 6,
+                            action: () => {
+                                degAngles.forEach(deg => {
+                                    let rad = deg * (Math.PI / 180);
+                                    let vx = Math.cos(rad) * baseSpeed * dir;
+                                    let vy = Math.sin(rad) * baseSpeed;
+                                    let randType = cardTypes[Math.floor(Math.random() * cardTypes.length)];
+                                    projectiles.push(new KidColorCard(px, py, vx, vy, this, randType, true));
+                                });
+                            }
+                        });
+                    }
                 }
                 else if (skillKey === 'c3') {
                     playSkillSound('assets/sounds/sound_skill/kid/c3_cast.ogg'); // <-- THÊM KÍCH HOẠT MÁY BAY
@@ -7257,6 +7289,27 @@ else if (this.isChanneling) {
                 ctx.save();
                 let cx = this.x + this.width/2;
                 let cy = this.y + this.height/2;
+
+                // Vẽ Aura phát sáng xung quanh Kid khi có đòn đánh cường hóa
+                if (this.kidEmpoweredCard) {
+                    const auraColors = {
+                        'red': '#ff3333',
+                        'yellow': '#ffff00',
+                        'orange': '#ff9900',
+                        'blue': '#00e5ff'
+                    };
+                    let aCol = auraColors[this.kidEmpoweredCard];
+                    ctx.save();
+                    ctx.strokeStyle = aCol;
+                    ctx.lineWidth = 2.5;
+                    ctx.shadowBlur = 15;
+                    ctx.shadowColor = aCol;
+                    ctx.beginPath();
+                    let auraR = 26 + Math.sin(Date.now() / 150) * 4;
+                    ctx.arc(cx, cy, auraR, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                }
 
                 // Áo choàng trắng bay phía sau
                 ctx.fillStyle = '#ffffff';

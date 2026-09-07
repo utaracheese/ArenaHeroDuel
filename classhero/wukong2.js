@@ -1,6 +1,62 @@
 // =========================================================================
-// WUKONG V2 (NGỘ KHÔNG CHIẾU GƯƠNG / PHÂN THÂN ĐỐI XỨNG)
+// WUKONG V2 (NGỘ KHÔNG CHIẾU GƯƠNG / PHÂN THÂN ĐỐI XỨNG) - ĐÃ CẬP NHẬT HOÀN CHỈNH
 // =========================================================================
+
+// --- HỆ THỐNG QUẢN LÝ ĐIỂM BÓNG ĐỘC LẬP (KHẮC PHỤC LỖI MATH.MAX CỦA BASE GAME) ---
+function getWukong2Points(player) {
+    if (!player || !player.statusList) return 0;
+    let st = player.statusList.find(s => s.id === 'wukong2_clone_point');
+    return st ? (st.value || 0) : 0;
+}
+
+function setWukong2Points(player, val) {
+    if (!player || !player.statusList) return;
+    val = Math.max(0, val); // Không để âm
+    let st = player.statusList.find(s => s.id === 'wukong2_clone_point');
+    if (st) {
+        st.value = val;
+    } else {
+        player.addStatus('wukong2_clone_point', 'buff', 'assets/icon/buff/wukong2_stack.png', 'inf', val);
+    }
+}
+
+function addWukong2Points(player, amount) {
+    let current = getWukong2Points(player);
+    setWukong2Points(player, current + amount);
+}
+
+// --- HIỆU ỨNG HẠT TINH HOA LINH LỰC QUANH ẤN KÝ ĐIỂM SỐ ---
+class Wukong2StackParticle {
+    constructor(x, y) {
+        this.x = x + (Math.random() - 0.5) * 26;
+        this.y = y + (Math.random() - 0.5) * 16;
+        this.vx = (Math.random() - 0.5) * 0.8;
+        this.vy = -Math.random() * 0.9 - 0.3;
+        this.size = 1.5 + Math.random() * 2;
+        this.color = Math.random() > 0.4 ? '#00ffff' : '#ffd700';
+        this.life = 25 + Math.random() * 15;
+        this.maxLife = this.life;
+        this.active = true;
+    }
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.life--;
+        if (this.life <= 0) this.active = false;
+    }
+    draw() {
+        if (!this.active) return;
+        ctx.save();
+        ctx.globalAlpha = this.life / this.maxLife;
+        ctx.fillStyle = this.color;
+        ctx.shadowBlur = 6;
+        ctx.shadowColor = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+    }
+}
 
 // --- ĐÒN ĐÁNH THƯỜNG ---
 class Wukong2BasicStrike extends Projectile {
@@ -32,7 +88,7 @@ class Wukong2BasicStrike extends Projectile {
     }
 }
 
-// --- CHIÊU 1: PHÓNG GẬY BAY 400PX HOẶC DỪNG KHI TRÚNG ĐÍCH -> QUAY GẬY TỐC ĐỘ CAO ---
+// --- CHIÊU 1: PHÓNG GẬY BAY 400PX HOẶC DỪNG KHI TRÚNG ĐÍCH -> XOAY GẬY TỐC ĐỘ CAO ---
 class Wukong2StaffThrow extends Projectile {
     constructor(startX, startY, dir, owner, isClone = false) {
         let dmg = isClone ? 12 : 20;
@@ -54,9 +110,8 @@ class Wukong2StaffThrow extends Projectile {
                 enemy.takeDamage(this.damage);
                 effects.push(new Explosion(enemy.x + 15, enemy.y + 25, 35, this.isClone ? '#00ffff' : '#ffd700'));
                 
-                // Tích 3 điểm nội tại khi phi trúng
-                let cur = this.owner.getStatusValue('wukong2_clone_point');
-                this.owner.addStatus('wukong2_clone_point', 'buff', 'assets/icon/buff/wukong2_stack.png', 'inf', cur + 3);
+                // Tích 3 điểm nội tại khi phi trúng đích
+                addWukong2Points(this.owner, 3);
                 
                 // Dừng lại và chuyển sang dạng xoay gậy
                 this.state = 'spinning';
@@ -79,19 +134,18 @@ class Wukong2StaffThrow extends Projectile {
             this.spinTimer--;
             if (this.damageCooldown > 0) this.damageCooldown--;
 
-            // Gây 10 dame/s (6 với bóng) -> mỗi 60 frame gây dame
+            // Gây sát thương mỗi giây (60 frames)
             if (this.damageCooldown <= 0) {
                 let enemy = (this.owner === player1) ? player2 : player1;
                 if (checkCollision(this, enemy) && !enemy.isDead) {
                     let spinDmg = this.isClone ? 6 : 10;
                     enemy.takeDamage(spinDmg);
-                    this.damageCooldown = 60; // 1s cooldown giữa mỗi nhát gây sát thương
+                    this.damageCooldown = 60; // 1s hồi đòn xoay
                     effects.push(new Explosion(enemy.x + 15, enemy.y + 25, 20, this.isClone ? '#00ffff' : '#ffd700'));
 
-                    // Chỉ tích điểm ở bản thể gốc
+                    // Mỗi đòn xoay trúng tích thêm 1 điểm
                     if (!this.isClone) {
-                        let cur = this.owner.getStatusValue('wukong2_clone_point');
-                        this.owner.addStatus('wukong2_clone_point', 'buff', 'assets/icon/buff/wukong2_stack.png', 'inf', cur + 1);
+                        addWukong2Points(this.owner, 1);
                     }
                 }
             }
@@ -116,7 +170,7 @@ class Wukong2StaffThrow extends Projectile {
             ctx.fillRect(-25, -5, 10, 10);
             ctx.fillRect(15, -5, 10, 10);
         } else {
-            // Xoay gậy với tốc độ cao
+            // Xoay gậy tốc độ cao
             ctx.rotate(Date.now() / 20);
             ctx.strokeStyle = this.isClone ? 'rgba(0, 255, 255, 0.8)' : 'rgba(255, 215, 0, 0.8)';
             ctx.lineWidth = 6;
@@ -172,10 +226,9 @@ class Wukong2S2SlashArc extends Projectile {
             this.hitTargets.push(target);
             effects.push(new Explosion(target.x + 15, target.y + 25, 40, this.isClone ? '#00ffff' : '#ffd700'));
 
-            // Tích điểm nội tại
+            // Tích điểm nội tại: thật +2, bóng +1
             let add = this.isClone ? 1 : 2;
-            let cur = this.owner.getStatusValue('wukong2_clone_point');
-            this.owner.addStatus('wukong2_clone_point', 'buff', 'assets/icon/buff/wukong2_stack.png', 'inf', cur + add);
+            addWukong2Points(this.owner, add);
         }
     }
 }
@@ -197,7 +250,6 @@ class Wukong2SpinAoE extends Projectile {
             return;
         }
 
-        // Bám theo bản thể hoặc bóng
         let cx = this.isClone ? this.targetPlayer.cloneX + 15 : this.targetPlayer.x + 15;
         let cy = this.isClone ? this.targetPlayer.cloneY + 25 : this.targetPlayer.y + 25;
         this.x = cx - 70;
@@ -236,7 +288,7 @@ class Wukong2SpinAoE extends Projectile {
 }
 
 // =========================================================================
-// HỆ THỐNG QUẢN LÝ UPDATE VÀ SKILL CHO WUKONG V2
+// HỆ THỐNG KHỞI TẠO VÀ CẬP NHẬT LOGIC
 // =========================================================================
 
 function initWukong2(player) {
@@ -247,8 +299,8 @@ function initWukong2(player) {
     player.wukong2SwapTimer = 0;
     player.wukong2DecayTimer = 0;
 
-    // Khởi tạo điểm nội tại ban đầu = 0
-    player.addStatus('wukong2_clone_point', 'buff', 'assets/icon/buff/wukong2_stack.png', 'inf', 0);
+    // Đăng ký điểm số ban đầu
+    setWukong2Points(player, 0);
 }
 
 function updateWukong2(player) {
@@ -258,20 +310,22 @@ function updateWukong2(player) {
         initWukong2(player);
     }
 
-    // 1. Trừ 1 điểm nội tại mỗi 5 giây (300 frames) nếu điểm > 0
-    player.wukong2DecayTimer = (player.wukong2DecayTimer || 0) + 1;
-    if (player.wukong2DecayTimer >= 300) {
-        player.wukong2DecayTimer = 0;
-        let cur = player.getStatusValue('wukong2_clone_point');
-        if (cur > 0) {
-            player.addStatus('wukong2_clone_point', 'buff', 'assets/icon/buff/wukong2_stack.png', 'inf', cur - 1);
+    // 1. Logic giảm 1 điểm mỗi 5 giây (300 frames) chỉ khi điểm > 0
+    let curPoints = getWukong2Points(player);
+    if (curPoints > 0) {
+        player.wukong2DecayTimer = (player.wukong2DecayTimer || 0) + 1;
+        if (player.wukong2DecayTimer >= 300) {
+            player.wukong2DecayTimer = 0;
+            setWukong2Points(player, curPoints - 1);
         }
+    } else {
+        player.wukong2DecayTimer = 0;
     }
 
     // 2. Logic lướt đổi chỗ (Chiêu 3 Swap)
     if (player.isWukong2Swapping) {
         player.wukong2SwapTimer--;
-        player.vy = 0; // Không bị trọng lực làm rơi xuống
+        player.vy = 0; // Kháng trọng lực trong lúc lướt hoán đổi
 
         let dx1 = player.wukong2TargetRealX - player.x;
         let dy1 = player.wukong2TargetRealY - player.y;
@@ -297,7 +351,7 @@ function updateWukong2(player) {
             player.cloneY = player.wukong2TargetCloneY;
         }
 
-        // Tạo bóng mờ
+        // Tạo bóng mờ tàn ảnh
         if (Math.random() < 0.5) {
             effects.push(new Explosion(player.x + 15, player.y + 25, 20, '#ffd700'));
             effects.push(new Explosion(player.cloneX + 15, player.cloneY + 25, 20, '#00ffff'));
@@ -311,7 +365,7 @@ function updateWukong2(player) {
             player.cloneY = player.wukong2TargetCloneY;
         }
     } else {
-        // Đồng bộ vị trí đối xứng của bóng qua trục trung tâm bản đồ
+        // Đồng bộ vị trí đối xứng qua trục tâm sàn đấu
         player.cloneX = canvas.width - player.x - player.width;
         player.cloneY = player.y;
         player.cloneFacingRight = !player.facingRight;
@@ -337,11 +391,11 @@ function handleWukong2Skill(player, skillKey) {
 
         let pCloneX = player.cloneFacingRight ? player.cloneX + player.width + 5 : player.cloneX - 45;
         projectiles.push(new Wukong2StaffThrow(pCloneX, player.cloneY + 15, cloneDir, player, true));
-        player.cds.c1 = 300; // Hồi 5 giây
+        player.cds.c1 = 300; // 5s hồi
     }
     else if (skillKey === 'c2') {
         if (player.isWukong2Swapping) {
-            // Đang lướt đổi chỗ: vung gậy thành hình tròn 360 độ trong 0.9s
+            // Đang lướt đổi chỗ: vung gậy tròn 360 độ trong 0.9s
             projectiles.push(new Wukong2SpinAoE(player, false));
             projectiles.push(new Wukong2SpinAoE(player, true));
         } else {
@@ -352,14 +406,15 @@ function handleWukong2Skill(player, skillKey) {
             let slashCloneX = player.cloneFacingRight ? player.cloneX + player.width : player.cloneX;
             projectiles.push(new Wukong2S2SlashArc(slashCloneX, player.cloneY + 25, cloneDir, player, true));
         }
-        player.cds.c2 = 360; // Hồi 6 giây
+        player.cds.c2 = 360; // 6s hồi
     }
     else if (skillKey === 'c3') {
-        let curPoints = player.getStatusValue('wukong2_clone_point');
+        let curPoints = getWukong2Points(player);
         if (curPoints > 0) {
-            player.addStatus('wukong2_clone_point', 'buff', 'assets/icon/buff/wukong2_stack.png', 'inf', curPoints - 1);
+            // Trừ chính xác 1 điểm khi giật bóng
+            setWukong2Points(player, curPoints - 1);
 
-            // Bắt đầu lướt hoán đổi vị trí
+            // Bắt đầu hoán đổi vị trí
             player.isWukong2Swapping = true;
             player.wukong2SwapTimer = 15; // 0.25s
             player.wukong2TargetRealX = player.cloneX;
@@ -367,13 +422,81 @@ function handleWukong2Skill(player, skillKey) {
             player.wukong2TargetCloneX = player.x;
             player.wukong2TargetCloneY = player.y;
 
-            player.cds.c3 = 9; // 0.15s (9 frames ở 60 FPS)
-            effects.push(new Explosion(player.x + 15, player.y + 25, 30, '#ffd700'));
-            effects.push(new Explosion(player.cloneX + 15, player.cloneY + 25, 30, '#00ffff'));
+            player.cds.c3 = 9; // 0.15s hồi chiêu
+            effects.push(new Explosion(player.x + 15, player.y + 25, 35, '#ffd700'));
+            effects.push(new Explosion(player.cloneX + 15, player.cloneY + 25, 35, '#00ffff'));
         } else {
             effects.push(new DamageText(player.x, player.y - 20, "HẾT ĐIỂM BÓNG!", '#ff3333'));
         }
     }
+}
+
+// --- VẼ HIỆU ỨNG SỐ ĐIỂM TRÊN ĐẦU WUKONG 2 (VÒNG NĂNG LƯỢNG & ĐỐM SÁNG DẠ QUANG) ---
+function drawWukong2HeadPoints(player) {
+    if (!player || player.heroType !== 'wukong2' || player.isDead) return;
+
+    let points = getWukong2Points(player);
+    // Chỉ hiển thị số điểm khi điểm > 0
+    if (points <= 0) return;
+
+    ctx.save();
+    let cx = player.x + player.width / 2;
+    let headY = player.y - 24 + Math.sin(Date.now() / 180) * 3; // Lơ lửng nhấp nhô nhẹ
+
+    // 1. Tạo hiệu ứng hạt tinh thể phát sáng xung quanh
+    if (Math.random() < 0.2) {
+        effects.push(new Wukong2StackParticle(cx, headY));
+    }
+
+    // 2. Vòng tròn hào quang xoay chậm
+    let rot = Date.now() / 600;
+    ctx.translate(cx, headY);
+
+    // Vòng phát sáng nền (Aura Glow)
+    let radGrad = ctx.createRadialGradient(0, 0, 2, 0, 0, 18);
+    radGrad.addColorStop(0, 'rgba(0, 255, 255, 0.45)');
+    radGrad.addColorStop(0.7, 'rgba(255, 215, 0, 0.25)');
+    radGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    ctx.fillStyle = radGrad;
+    ctx.beginPath();
+    ctx.arc(0, 0, 18, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Vành khuyên năng lượng xoay nét đứt
+    ctx.rotate(rot);
+    ctx.strokeStyle = 'rgba(0, 255, 255, 0.7)';
+    ctx.lineWidth = 1.8;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.arc(0, 0, 13, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.rotate(-rot);
+
+    // Viên ngọc linh hồn tâm điểm (Diamond Orb)
+    ctx.fillStyle = 'rgba(15, 25, 35, 0.85)';
+    ctx.beginPath();
+    ctx.arc(0, 0, 10, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    // 3. Số điểm hiển thị phát sáng neon rực rỡ
+    ctx.fillStyle = '#00ffff';
+    ctx.font = 'bold 13px "Courier New", monospace, Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = '#00ffff';
+    ctx.fillText(`${points}`, 0, 0.5);
+
+    // Vẽ thêm 1 lớp viền chữ sáng
+    ctx.shadowBlur = 2;
+    ctx.shadowColor = '#ffffff';
+    ctx.fillText(`${points}`, 0, 0.5);
+
+    ctx.restore();
 }
 
 // --- VẼ BÓNG CHIẾU GƯƠNG ĐỐI XỨNG CỦA WUKONG V2 ---
@@ -425,3 +548,17 @@ function drawWukong2Clone(player) {
 
     ctx.restore();
 }
+
+// --- HOOK TỰ ĐỘNG VẼ ĐIỂM SỐ TRÊN ĐẦU KHI GAME RENDER ---
+(function hookWukong2Draw() {
+    if (typeof Player !== 'undefined' && Player.prototype && !Player.prototype._wukong2Hooked) {
+        const originalDraw = Player.prototype.draw;
+        Player.prototype.draw = function() {
+            originalDraw.apply(this, arguments);
+            if (this.heroType === 'wukong2') {
+                drawWukong2HeadPoints(this);
+            }
+        };
+        Player.prototype._wukong2Hooked = true;
+    }
+})();
